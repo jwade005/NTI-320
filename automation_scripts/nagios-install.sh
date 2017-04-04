@@ -46,7 +46,7 @@ chown -R nagios:nagios /usr/local/nagios/libexec/eventhandlers
 
 #create user for web interface
 
-htpasswd –c /usr/local/nagios/etc/htpasswd.users nagiosadmin
+htpasswd –c /usr/local/nagios/etc/htpasswd.users nagiosadmin P@ssw0rd1
 
 #install nagios plugins
 
