@@ -9,8 +9,8 @@ cd /tmp
 
 #this will download Nagios Core and plugins
 
-wget http://prdownloads.sourceforge.net/sourceforge/nagios/nagios-4.2.0.tar.gz
-wget http://nagios-plugins.org/download/nagios-plugins-2.1.2.tar.gz
+wget http://prdownloads.sourceforge.net/sourceforge/nagios/nagios-4.3.1.tar.gz
+wget http://nagios-plugins.org/download/nagios-plugins-2.1.4.tar.gz
 
 #add users and groups for nagios processes
 
@@ -21,11 +21,11 @@ usermod -a -G nagios,nagcmd apache
 
 #extract packages
 
-tar zxvf nagios-4.2.0.tar.gz
-tar zxvf nagios-plugins-2.1.2.tar.gz
+tar zxvf nagios-4.3.1.tar.gz
+tar zxvf nagios-plugins-2.1.4.tar.gz
 
 #cd to nagios directory and install the packages
-cd nagios-4.2.0
+cd nagios-4.3.1
 
 ./configure --with-command-group=nagcmd
 
@@ -50,7 +50,7 @@ htpasswd –c /usr/local/nagios/etc/htpasswd.users nagiosadmin
 
 #install nagios plugins
 
-cd /tmp/nagios-plugins-2.1.2
+cd /tmp/nagios-plugins-2.1.4
 ./configure --with-nagios-user=nagios --with-nagios-group=nagios
 make
 make install
@@ -62,5 +62,3 @@ chkconfig --add httpd
 chkconfig --level 35 httpd on
 
 #login to the nagios web interface at http://<your.nagios.server.ip>/nagios; u/n: nagiosadmin and password created earlier
-
-
