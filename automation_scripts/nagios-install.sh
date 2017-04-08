@@ -65,3 +65,11 @@ chkconfig --level 35 httpd on
 /usr/sbin/nagios -v /etc/nagios/nagios.cfg
 
 #login to the nagios web interface at http://<your.nagios.server.ip>/nagios; u/n: nagiosadmin and password created earlier
+
+
+#add local timezone support
+#vim nagios.cfg   ----> #timezone offste ----> add line: use_timezone=US/Pacific
+#vim /etc/httpd/conf.d/nagios.conf ---->will change timezone in CGI ---->add line: SetEnv TZ "US/Pacific" under <options execCGI>
+#systemctl restart nagios
+#systemctl restart httpd
+#reload web interface for correct timezone
