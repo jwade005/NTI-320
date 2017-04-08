@@ -61,4 +61,7 @@ chkconfig --level 35 nagios on
 chkconfig --add httpd
 chkconfig --level 35 httpd on
 
+#run pre-flight check on configuration data
+/usr/sbin/nagios -v /etc/nagios/nagios.cfg
+
 #login to the nagios web interface at http://<your.nagios.server.ip>/nagios; u/n: nagiosadmin and password created earlier
