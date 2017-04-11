@@ -8,6 +8,9 @@ yum -y install httpd
 systemctl enable httpd
 systemctl start httpd
 
+#stop html 'warning'
+touch /var/www/html/index.html
+
 #install nrpe and nagios plugins
 yum -y install nrpe nagios-plugins-all
 
