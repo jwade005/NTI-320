@@ -37,7 +37,7 @@ systemctl restart httpd
 chkconfig nagios on
 
 #adjust nrpe allowed_hosts
-sed -i 's,allowed_hosts=127.0.0.1,allowed_hosts=127.0.0.1,10.138.0.0\/24,g' /etc/nagios/nrpe.cfg
+sed -i 's,allowed_hosts=127.0.0.1,allowed_hosts=127.0.0.1\,10.138.0.0\/24,g' /etc/nagios/nrpe.cfg
 sed -i 's,dont_blame_nrpe=0,dont_blame_nrpe=1,g' /etc/nagios/nrpe.cfg
 
 #create remote monitoring configuration
@@ -63,7 +63,7 @@ define host{
 ###############################################################################
 ###############################################################################
 
-# Define a service to "ping" the test-1-nti320 machine
+# Define a service to ping the test-1-nti320 machine
 
 define service{
         use                             generic-service         ; Name of service template to use
