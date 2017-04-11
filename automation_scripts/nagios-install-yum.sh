@@ -19,7 +19,7 @@ systemctl enable httpd
 systemctl start httpd
 
 #set nagios admin password
-htpasswd /etc/nagios/passwd nagiosadmin P@ssw0rd1
+htpasswd -b /etc/nagios/passwd nagiosadmin P@ssw0rd1
 
 #install plugins
 yum install nagios-plugins-all
@@ -44,7 +44,7 @@ sed -i 's,dont_blame_nrpe=0,dont_blame_nrpe=1,g' /etc/nagios/nrpe.cfg
 cd /etc/nagios/conf.d
 touch test-1-nti320.cfg
 
-echo "# Define a host for the test-1-nti320 machine
+echo '# Define a host for the test-1-nti320 machine
 
 define host{
         use                     linux-server            ; Name of host template to use
@@ -52,7 +52,7 @@ define host{
                                                         ; in (or inherited by) the linux-server host template definition.
         host_name               test-1
         alias                   test-1-nti320
-        address                 35.185.194.234
+        address                 10.138.0.3
         }
 
 ###############################################################################
@@ -144,35 +144,35 @@ define service{
 #        command_line    $USER1$/check_load -w $ARG1$ -c $ARG2$
 #        }
 
-# 'check_disk' command definition
+# check_disk command definition
 #define command{
 #        command_name    check_disk
 #        command_line    $USER1$/check_disk -w $ARG1$ -c $ARG2$ -p $ARG3$
 #        }
 
-# 'check_procs' command definition
+# check_procs command definition
 #define command{
 #        command_name    check_procs
 #        command_line    $USER1$/check_procs -w $ARG1$ -c $ARG2$ -s $ARG3$
 #        }
 
-# 'check_users' command definition
+# check_users command definition
 #define command{
 #        command_name    check_users
 #        command_line    $USER1$/check_users -w $ARG1$ -c $ARG2$
 #        }
-" >> test-1-nti320.cfg
+' >> test-1-nti320.cfg
 
 #isntall nrpe plugin for remote monitoring
 yum -y install check_nrpe
 
 #add check_nrpe command definition
-echo "# check_nrpe command definition
+echo '# check_nrpe command definition
 define command{
         command_name check_nrpe
         command_line $USER1$/check_nrpe -H $HOSTADDRESS$ -c $ARG1$
 }
-" >> /etc/nagios/objects/commands.cfg
+' >> /etc/nagios/objects/commands.cfg
 
 #adjust built-in command definitions in nrpe.cfg
 sed -i "215i 'command[check_disk]=\/usr\/lib64\/nagios\/plugins\/check_disk -w 20% -c 10% -p \/dev\/sda1'," /etc/nagios/nrpe.cfg
