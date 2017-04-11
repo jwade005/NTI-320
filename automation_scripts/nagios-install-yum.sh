@@ -175,8 +175,8 @@ define command{
 ' >> /etc/nagios/objects/commands.cfg
 
 #adjust built-in command definitions in nrpe.cfg
-sed -i "215i 'command[check_disk]=\/usr\/lib64\/nagios\/plugins\/check_disk -w 20% -c 10% -p \/dev\/sda1'," /etc/nagios/nrpe.cfg
-sed -i "216i 'command[check_procs]=\/usr\/lib64\/nagios\/plugins\/check_procs -w 150 -c 200'," /etc/nagios/nrpe.cfg
+sed -i "215i command[check_disk]=\/usr\/lib64\/nagios\/plugins\/check_disk -w 20% -c 10% -p \/dev\/sda1" /etc/nagios/nrpe.cfg
+sed -i "216i command[check_procs]=\/usr\/lib64\/nagios\/plugins\/check_procs -w 150 -c 200" /etc/nagios/nrpe.cfg
 
 #restart nagios and nrpe services
 systemctl restart nrpe
