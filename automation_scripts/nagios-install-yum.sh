@@ -25,7 +25,7 @@ touch /var/www/html/index.html
 htpasswd -b /etc/nagios/passwd nagiosadmin P@ssw0rd1
 
 #install plugins
-yum install nagios-plugins-all
+yum -y install nagios-plugins-all
 
 #install nrpe for remote monitoring and start service
 yum -y install nrpe
