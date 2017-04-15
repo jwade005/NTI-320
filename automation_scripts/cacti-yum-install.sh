@@ -56,7 +56,7 @@ systemctl restart httpd.service
 # uncomment cronjob for cacti to poll every 5 minutes
 sed -i 's/#//g' /etc/cron.d/cacti
 
-# add sed lines for timezone support    *******
+# add sed lines for timezone support    /etc/php.ini      *******
 #[root@cacti-c etc]# diff php.ini php.ini.orig
 #878c878
 #< date.timezone = America/Regina
