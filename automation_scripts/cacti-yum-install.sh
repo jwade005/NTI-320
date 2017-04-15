@@ -26,7 +26,7 @@ setenforce 0
 mysqladmin -u root password P@ssw0rd1
 
 # use local timezone with database
-mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql -u root -p mysql
+mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql -u root -p mysql    # ******* add password support for automation
 
 # create slq script
 echo "create database cacti;
@@ -37,12 +37,12 @@ GRANT SELECT ON mysql.time_zone_name TO cacti@localhost;
 flush privileges;" > stuff.sql
 
 # run sql script
-mysql -u root  -p < stuff.sql
+mysql -u root  -p < stuff.sql                                       # ******* add password support for automation
 
 rpm -ql cacti|grep cacti.sql     # Will list the location of the package cacti sql script
 
 # run the cacti sql script
-mysql -u cacti -p cacti < /usr/share/doc/cacti-1.0.4/cacti.sql
+mysql -u cacti -p cacti < /usr/share/doc/cacti-1.0.4/cacti.sql      # ******* add password support for automation
 
 # create sed lines to modify access   ******
 # vim /etc/httpd/conf.d/cacti.conf
