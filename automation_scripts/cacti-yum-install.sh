@@ -19,6 +19,9 @@ systemctl start mariadb
 systemctl start httpd
 systemctl start snmpd
 
+# turn off SE linux
+setenforce 0
+
 # set database password
 mysqladmin -u root password P@ssw0rd1
 
