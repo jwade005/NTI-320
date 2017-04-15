@@ -44,6 +44,9 @@ mysql -u cacti -p cacti < /usr/share/doc/cacti-1.0.4/cacti.sql
 # create sed lines to modify access   ******
 # vim /etc/httpd/conf.d/cacti.conf
 
+# create sed lines to change username and password for cacti
+#vim /etc/cacti/  db.php
+
 # restart httpd service
 systemctl restart httpd.service
 
