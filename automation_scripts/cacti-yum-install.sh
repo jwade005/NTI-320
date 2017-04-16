@@ -26,7 +26,7 @@ setenforce 0
 mysqladmin -u root password P@ssw0rd1
 
 # use local timezone with database
-mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql -u root -p mysql    # ******* add password support for automation
+mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql -u root -pP@ssw0rd1 mysql    # ******* add password support for automation
 
 # create slq script
 echo "create database cacti;
@@ -37,18 +37,22 @@ GRANT SELECT ON mysql.time_zone_name TO cacti@localhost;
 flush privileges;" > stuff.sql
 
 # run sql script
-mysql -u root  -p < stuff.sql                                       # ******* add password support for automation
+mysql -u root  -pP@ssw0rd1 < stuff.sql                                       # ******* add password support for automation
 
 rpm -ql cacti|grep cacti.sql     # Will list the location of the package cacti sql script
 
 # run the cacti sql script
-mysql -u cacti -p cacti < /usr/share/doc/cacti-1.0.4/cacti.sql      # ******* add password support for automation
+mysql -u cacti -pP@ssw0rd1 cacti < /usr/share/doc/cacti-1.0.4/cacti.sql      # ******* add password support for automation
 
 # create sed lines to modify access   ******
 # vim /etc/httpd/conf.d/cacti.conf
+sed -i 's/Require host localhost/Require host 10.138.0.0\/24/,g' /etc/httpd/conf.d/cacti.conf
+sed -i 's/Allow from localhost/Allow from 10.138.0.0\/24/,g' /etc/httpd/conf.d/cacti.conf
 
 # create sed lines to change username and password for cacti
-#vim /etc/cacti/  db.php
+#vim /etc/cacti/db.php
+sed -i 's/$database_username = "cactiuser";/$database_username = "cacti";/,g' /etc/cacti/db/php
+sed -i 's/$database_password = "cactipass";/$database_password = "P@ssw0rd1";/,g' /etc/cacti/db/php
 
 # restart httpd service
 systemctl restart httpd.service
@@ -57,8 +61,5 @@ systemctl restart httpd.service
 sed -i 's/#//g' /etc/cron.d/cacti
 
 # add sed lines for timezone support    /etc/php.ini      *******
-#[root@cacti-c etc]# diff php.ini php.ini.orig
-#878c878
-#< date.timezone = America/Regina
-#---
-#> ;date.timezone =
+cp /etc/php.ini /etc/php.ini.orig
+sed -i 's/#date.timezone = /date.timezone = America\/Regina/,g' /etc/php.ini
