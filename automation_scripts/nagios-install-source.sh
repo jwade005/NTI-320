@@ -96,34 +96,34 @@ sed -i '/^allowed_hosts=/s/$/,10.138.0.0\/24/' /usr/local/nagios/etc/nrpe.cfg
 sed -i 's/^dont_blame_nrpe=.*/dont_blame_nrpe=1/g' /usr/local/nagios/etc/nrpe.cfg
 
 #add support for nrpe and other commands in commands.cfg
-echo "define command{
+echo 'define command{
   command_name check_nrpe
   command_line $USER1$/check_nrpe -H $HOSTADDRESS$ -c $ARG1$
   }
 
-# 'check_load' comand defintion
+# check_load comand defintion
 define command{
 	command_name	check_load
 	command_line $USER1$/check_load -w $ARG1$ -c $ARG2$
 	}
 
-# 'check_disk' command definition
+# check_disk command definition
 define command{
   command_name    check_disk
   command_line    $USER1$/check_disk -w $ARG1$ -c $ARG2$ -p $ARG3$
   }
 
-# 'check_procs' command definition
+# check_procs command definition
 define command{
   command_name    check_procs
   command_line    $USER1$/check_procs -w $ARG1$ -c $ARG2$ -s $ARG3$
   }
 
-# 'check_users' command definition
+# check_users command definition
 define command{
   command_name    check_users
   command_line    $USER1$/check_users -w $ARG1$ -c $ARG2$
-  }" >> /usr/local/nagios/etc/objects/commands.cfg
+}' >> /usr/local/nagios/etc/objects/commands.cfg
 
 #open server directory for monitoring configurations
 sed -i "s,#cfg_dir=\/usr\/local\/nagios\/etc\/servers,cfg_dir=\/usr\/local\/nagios\/etc\/servers,g" /usr/local/nagios/etc/nagios.cfg
@@ -133,6 +133,7 @@ mkdir /usr/local/nagios/etc/servers
 
 #add configuration file for server to directory
 cp /tmp/NTI-320/config_files/nagios/test-1-nti320.cfg /usr/local/nagios/etc/servers/test-1-nti320.cfg
+cp /tmp/NTI-320/config_files/nagios/cacti-a.cfg /usr/local/nagios/etc/servers/cacti-a.cfg
 
 #perform config check
 /usr/local/nagios/bin/nagios -v /usr/local/nagios/etc/nagios.cfg
