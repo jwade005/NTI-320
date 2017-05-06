@@ -1,0 +1,51 @@
+# Install nrpe from source some lines omitted because we all make mistakes :)
+
+[Jonathan@rpm-b nrpe-3.1]$ history
+    1  sudo yum -y install rpm-build
+    2  sudo yum -y install redhat-rpm-config
+    3  mkdir -p ~/rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
+    4  echo '%_topdir %(echo $HOME)/rpmbuild' > ~/.rpmmacros
+    5  sudo yum -y install make gcc tree
+  130  sudo yum -y install git
+  131  git clone https://github.com/NagiosEnterprises/nrpe.git
+  132  git clone https://github.com/NagiosEnterprises/nagioscore.git
+  135  tar -czvf nrpe-3.1.tar.gz /home/Jonathan/rpmbuild/SOURCES/nrpe
+  136  tar -czvf nagioscore-4.3.1.tar.gz /home/Jonathan/rpmbuild/SOURCES/nagioscore
+  137  sudo mv nagioscore nagioscore-4.3.1
+  140  sudo mkdir nrpe
+  141  sudo mv nagioscore-4.3.1 nagioscore
+  142  sudo mv nrpe-3.1 nrpe
+  143  cd ../SPECS
+  144  sudo cp /usr/share/vim/vimfiles/template.spec .
+  145  sudo yum -y install yum-utils rpmbuild
+  146  sudo yumdownloader --source nrpe
+  147  sudo yumdownloader --source nagios
+  152  rpm -ivh ./nrpe-2.15-7.el7.src.rpm
+  153  rpm -ivh ./nagios-4.2.4-2.el7.src.rpm 
+  169  ./configure
+  170  sudo yum -y install openssl-devel
+  171  ./configure --with-ssl=/usr/bin/openssl --with-ssl-lib=/usr/lib/x86_64-linux-gnu
+  172  make all
+  173  sudo make install-groups-users
+  174  make install
+  175  sudo make install
+  176  make install-config
+  177  sudo make install-config
+
+[root@rpm-b nrpe-3.1]# history
+    1  echo >> /etc/services
+    2  echo '# Nagios services' >> /etc/services
+    3  echo 'nrpe    5666/tcp' >> /etc/services
+    4  su Jonathan
+    5  history
+
+[Jonathan@rpm-b nrpe-3.1]$ history
+    1  sudo make install-init
+    2  sudo systemctl enable nrpe.service
+    3  sudo systemctl start nrpe.service
+    4  history
+    5  ps aux | grep nrpe
+
+[Jonathan@rpm-b nrpe-3.1]$ ps aux | grep nrpe
+nagios   23820  0.0  0.4  42108  2668 ?        Ss   04:55   0:00 /usr/local/nagios/bin/nrpe -c /usr/local/nagios/etc/nrpe.cfg -f
+Jonathan 23828  0.0  0.1 112648   960 pts/0    R+   04:56   0:00 grep --color=auto nrpe
