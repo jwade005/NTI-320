@@ -1,0 +1,3 @@
+#!/bin/bash
+
+echo "This is going to be the coolest nagios plugin EVER!!"

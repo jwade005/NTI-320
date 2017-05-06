@@ -14,7 +14,7 @@ this is a beta rpm build for a nagios nrpe plugin
 %build
 %install
 install -m 0755 -d $RPM_BUILD_ROOT/usr/lib64/nagios/plugins/
-install -m 0755 check_cool_plugin.sh $RPM_BUILD_ROOT/usr/lib64/nagios/plugins/backup.sh
+install -m 0755 check_cool_plugin.sh $RPM_BUILD_ROOT/usr/lib64/nagios/plugins/check_cool_plugin.sh
 %clean
 rm -rf $RPM_BUILD_ROOT
 %post
