@@ -1,5 +1,5 @@
 Name:		check_cool_plugin
-Version:	1.0
+Version:	1.2
 Release:	1%{?dist}
 Summary:	cool new nrpe plugin rpm
 
@@ -24,8 +24,12 @@ this is a beta rpm build for a nagios nrpe plugin
 
 %install
 #make install DESTDIR=%{buildroot}
-install -m 0755 -d $RPM_BUILD_ROOT/usr/lib64/nagios/plugins/
-install -m 0755 /home/Jonathan/rpmbuild/SOURCES/plugins/check_cool_plugin $RPM_BUILD_ROOT/usr/lib64/nagios/plugins/check_cool_plugin
+sudo cp /home/Jonathan/rpmbuild/BUILD/check_cool_plugin-1.0/SOURCES/plugins/check_cool_plugin $RPM_BUILD_ROOT/
+sudo mv $RPM_BUILD_ROOT/check_cool_plugin /usr/lib64/nagios/plugins/check_cool_plugin
+sudo chmod +x /usr/lib64/nagios/plugins/check_cool_plugin
+sudo chown root:nagios /usr/lib64/nagios/plugins/check_cool_plugin
+
+sudo sed -i "308i command[check_cool_plugin]=\/usr\/lib64\/nagios\/plugins\/check_cool_plugin -w 66 -c 902" /usr/local/nagios/etc/nrpe.cfg
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -35,8 +39,11 @@ echo . .
 echo .cehck_cool_plugin nagios nrpe plugin installed!.
 
 %files
-%dir /usr/lib64/nagios/plugins/
-/usr/lib64/nagios/plugins/check_cool_plugin
+#/check_cool_plugin
+#/check_cool_plugin.spec
+#/install
+
+%dir
 
 
 %doc
