@@ -10,7 +10,7 @@ Summary:	cool new nrpe plugin rpm
 Group:		nti320-jwade005
 License:	GPL
 URL:		github.com/jwade005/nti320/rpm
-Source0:	/home/Jonathan/rpmbuild/SOURCES/%{name}-%{version}.tar.gz
+Source0:	%{name}-%{version}.tar.gz
 
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
