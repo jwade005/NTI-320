@@ -23,12 +23,12 @@ this is a beta rpm build for a nagios nrpe plugin
 %build
 
 %install
-#rm -rf %{buildroot}
+rm -rf %{buildroot}
 mkdir -p  %{buildroot}
 cp -a * %{buildroot}
 
 %clean
-#rm -rf %{buildroot}
+rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
