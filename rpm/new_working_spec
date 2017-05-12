@@ -8,8 +8,8 @@ License:	    GPL
 URL:          https://github.com/jwade005/NTI-320/tree/master/rpm
 Source0:	    https://raw.githubusercontent.com/jwade005/NTI-320/master/rpm/check_jwade005_plugin
 
-BuildRequires:    bash
-Requires:         bash
+BuildRequires:      bash
+Requires:           bash
 
 %description
 this is a plugin for nagios
