@@ -6,7 +6,7 @@ Summary:	this is jwade005's nagios nrpe plugin
 Group:		nti320-jwade005
 License:	GPL
 URL:		https://github.com/jwade005/NTI-320/tree/master/rpm
-Source0:	https://raw.githubusercontent.com/jwade005/NTI-320/master/rpm/check_jwade005_plugin
+Source0:	check_jwade005_plugin-1.0.tar.gz
 
 Requires:	bash
 
