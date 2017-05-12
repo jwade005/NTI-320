@@ -1,15 +1,15 @@
-Name:		      check_jwade005_plugin
+Name:		     check_jwade005_plugin
 Version:	    1.0
 Release:	    1%{?dist}
 Summary:	    this is jwade005's nagios nrpe plugin
 
 Group:		    nti320-jwade005
 License:	    GPL
-URL:		      https://github.com/jwade005/NTI-320/tree/master/rpm
+URL:		     https://github.com/jwade005/NTI-320/tree/master/rpm
 Source0:	    https://raw.githubusercontent.com/jwade005/NTI-320/master/rpm/check_jwade005_plugin
 
 BuildRequires:    bash
-Requires:	        bash
+Requires:	      bash
 
 %description
 this is a plugin for nagios
