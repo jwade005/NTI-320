@@ -1,0 +1,46 @@
+Name:		check_jwade005_plugin
+Version:	1.0
+Release:	1%{?dist}
+Summary:	this is jwade005's nagios nrpe plugin
+
+Group:		nti320-jwade005
+License:	GPL
+URL:		https://github.com/jwade005/NTI-320/tree/master/rpm
+Source0:	https://raw.githubusercontent.com/jwade005/NTI-320/master/rpm/check_jwade005_plugin
+
+BuildRequires:  bash
+Requires:	bash
+
+%description
+this is a plugin for nagios
+
+%prep
+%setup -q
+
+
+%build
+%configure
+make %{?_smp_mflags}
+
+
+%install
+rm -rf %{buildroot}
+make install DESTDIR=%{buildroot}
+
+%clean
+rm -rf %{buildroot}
+
+%files
+/usr/lib64/nagios/plugins/check_jwade005_plugin
+/usr/lib64/nagios/plugins/install
+
+%post
+./usr/lib64/nagios/plugins/install
+
+%doc
+
+
+
+%changelog
+* Thu May 11 2017 jonathan wade <jwade005@seattlecentral.edu> 1.0.1
+- Added support for post install script
