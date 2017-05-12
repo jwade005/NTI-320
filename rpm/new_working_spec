@@ -30,8 +30,8 @@ make install DESTDIR=%{buildroot}
 rm -rf %{buildroot}
 
 %files
-/usr/lib64/nagios/plugins/check_jwade005_plugin
-/usr/lib64/nagios/plugins/install
+%attr(0755, root, nagios) /usr/lib64/nagios/plugins/check_jwade005_plugin
+%attr(0755, root, root) /usr/lib64/nagios/plugins/install
 
 %post
 ./usr/lib64/nagios/plugins/install
