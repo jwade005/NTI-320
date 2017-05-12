@@ -1,15 +1,15 @@
-Name:		check_jwade005_plugin
-Version:	1.0
-Release:	1%{?dist}
-Summary:	this is jwade005's nagios nrpe plugin
+Name:		    check_jwade005_plugin
+Version:	  1.0
+Release:	  1%{?dist}
+Summary:	  this is jwade005's nagios nrpe plugin
 
-Group:		nti320-jwade005
-License:	GPL
-URL:		https://github.com/jwade005/NTI-320/tree/master/rpm
-Source0:	https://raw.githubusercontent.com/jwade005/NTI-320/master/rpm/check_jwade005_plugin
+Group:		  nti320-jwade005
+License:	  GPL
+URL:		    https://github.com/jwade005/NTI-320/tree/master/rpm
+Source0:	  https://raw.githubusercontent.com/jwade005/NTI-320/master/rpm/check_jwade005_plugin
 
 BuildRequires:  bash
-Requires:	bash
+Requires:	      bash
 
 %description
 this is a plugin for nagios
@@ -25,13 +25,17 @@ make %{?_smp_mflags}
 
 %install
 rm -rf %{buildroot}
+mkdir -p %{buildroot}/%{_bindir}
+cp /home/Jonathan/rpmbuild/SOURCES/install /home/Jonathan/rpmbuild/BUILD/check_jwade005_plugin-1.0/
+
 make install DESTDIR=%{buildroot}
+install -m 0755 %{name} %{buildroot}/%{_bindir}/%{name}
 
 %clean
 rm -rf %{buildroot}
 
 %files
-/usr/lib64/nagios/plugins/check_jwade005_plugin
+/usr/lib64/nagios/plugins/check_jwade005_plugin (-,root,nagios)
 /usr/lib64/nagios/plugins/install
 
 %post
