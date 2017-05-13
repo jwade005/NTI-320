@@ -1,0 +1,39 @@
+[Jonathan@rpm-a ~]$ sudo yum localinstall check_jwade005_plugin-1.0-1.el7.centos.x86_64.rpm
+Loaded plugins: fastestmirror
+Examining check_jwade005_plugin-1.0-1.el7.centos.x86_64.rpm: check_jwade005_plugin-1.0-1.el7.centos.x86_64
+Marking check_jwade005_plugin-1.0-1.el7.centos.x86_64.rpm to be installed
+Resolving Dependencies
+--> Running transaction check
+---> Package check_jwade005_plugin.x86_64 0:1.0-1.el7.centos will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+========================================================================================================================
+ Package                    Arch        Version               Repository                                           Size
+========================================================================================================================
+Installing:
+ check_jwade005_plugin      x86_64      1.0-1.el7.centos      /check_jwade005_plugin-1.0-1.el7.centos.x86_64       65  
+
+Transaction Summary
+========================================================================================================================
+Install  1 Package
+
+Total size: 65  
+Installed size: 65  
+Is this ok [y/d/N]: y
+Downloading packages:
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+Warning: RPMDB altered outside of yum.
+  Installing : check_jwade005_plugin-1.0-1.el7.centos.x86_64                                                        1/1 
+
+  Verifying  : check_jwade005_plugin-1.0-1.el7.centos.x86_64                                                        1/1 
+
+Installed:
+  check_jwade005_plugin.x86_64 0:1.0-1.el7.centos                                                                       
+
+Complete!
+[Jonathan@rpm-a ~]$ 
