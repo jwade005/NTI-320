@@ -18,23 +18,24 @@ this is a plugin for nagios
 
 
 %build
-%configure
-make %{?_smp_mflags}
 
 
 %install
 rm -rf %{buildroot}
-make install DESTDIR=%{buildroot}
+
+mkdir -p %{buildroot}/usr/lib64/nagios/plugins
+
+install -m 0755 %{name} %{buildroot}/usr/lib64/nagios/plugins/%{name}
 
 %clean
 rm -rf %{buildroot}
 
 %files
-%attr(0755, root, nagios) /usr/lib64/nagios/plugins/check_jwade005_plugin
-%attr(0755, root, root) /usr/lib64/nagios/plugins/install
+/usr/lib64/nagios/plugins/check_jwade005_plugin
 
 %post
-./usr/lib64/nagios/plugins/install
+sudo chown nagios:nagios /usr/lib64/nagios/plugins/check_jwade005_plugin
+sudo chmod +x /usr/lib64/nagios/plugins/check_jwade005_plugin
 
 %doc
 
