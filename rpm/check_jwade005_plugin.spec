@@ -36,6 +36,7 @@ rm -rf %{buildroot}
 %post
 sudo chown nagios:nagios /usr/lib64/nagios/plugins/check_jwade005_plugin
 sudo chmod +x /usr/lib64/nagios/plugins/check_jwade005_plugin
+sudo sed -i "215i command[check_jwade005_plugin]=\/usr\/lib64\/nagios\/plugins\/check_jwade005_plugin -w 66 -c 902" /etc/nagios/nrpe.cfg
 
 %doc
 
