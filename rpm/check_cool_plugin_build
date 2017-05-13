@@ -1,92 +1,56 @@
-[Jonathan@rpm-b rpmbuild]$ rpmbuild -bb SPECS/check_cool_plugin.spec
-Executing(%prep): /bin/sh -e /home/Jonathan/rpmbuild/tmp/rpm-tmp.oXqp87
+[Jonathan@rpm-build rpmbuild]$ rpmbuild -bb SPECS/check_jwade005_plugin.spec
+Executing(%prep): /bin/sh -e /var/tmp/rpm-tmp.psckPf
 + umask 022
 + cd /home/Jonathan/rpmbuild/BUILD
 + cd /home/Jonathan/rpmbuild/BUILD
-+ rm -rf check_cool_plugin-1.0
-+ /usr/bin/mkdir -p check_cool_plugin-1.0
-+ cd check_cool_plugin-1.0
++ rm -rf check_jwade005_plugin-1.0
++ /usr/bin/gzip -dc /home/Jonathan/rpmbuild/SOURCES/check_jwade005_plugin-1.0.tar.gz
 + /usr/bin/tar -xf -
-+ /usr/bin/gzip -dc /home/Jonathan/rpmbuild/SOURCES/check_cool_plugin-1.0.tar.gz
 + STATUS=0
 + '[' 0 -ne 0 ']'
++ cd check_jwade005_plugin-1.0
 + /usr/bin/chmod -Rf a+rX,u+w,g-w,o-w .
 + exit 0
-Executing(%build): /bin/sh -e /home/Jonathan/rpmbuild/tmp/rpm-tmp.Wvbqop
+Executing(%build): /bin/sh -e /var/tmp/rpm-tmp.fr4xrp
 + umask 022
 + cd /home/Jonathan/rpmbuild/BUILD
-+ cd check_cool_plugin-1.0
++ cd check_jwade005_plugin-1.0
 + exit 0
-Executing(%install): /bin/sh -e /home/Jonathan/rpmbuild/tmp/rpm-tmp.vCXRFG
+Executing(%install): /bin/sh -e /var/tmp/rpm-tmp.XKcJ4y
 + umask 022
 + cd /home/Jonathan/rpmbuild/BUILD
-+ '[' /home/Jonathan/rpmbuild/BUILDROOT/check_cool_plugin-1.0-1.el7.centos.x86_64 '!=' / ']'
-+ rm -rf /home/Jonathan/rpmbuild/BUILDROOT/check_cool_plugin-1.0-1.el7.centos.x86_64
-++ dirname /home/Jonathan/rpmbuild/BUILDROOT/check_cool_plugin-1.0-1.el7.centos.x86_64
++ '[' /home/Jonathan/rpmbuild/BUILDROOT/check_jwade005_plugin-1.0-1.el7.centos.x86_64 '!=' / ']'
++ rm -rf /home/Jonathan/rpmbuild/BUILDROOT/check_jwade005_plugin-1.0-1.el7.centos.x86_64
+++ dirname /home/Jonathan/rpmbuild/BUILDROOT/check_jwade005_plugin-1.0-1.el7.centos.x86_64
 + mkdir -p /home/Jonathan/rpmbuild/BUILDROOT
-+ mkdir /home/Jonathan/rpmbuild/BUILDROOT/check_cool_plugin-1.0-1.el7.centos.x86_64
-+ cd check_cool_plugin-1.0
-+ mkdir -p /home/Jonathan/rpmbuild/BUILDROOT/check_cool_plugin-1.0-1.el7.centos.x86_64
-+ cp -a SOURCES /home/Jonathan/rpmbuild/BUILDROOT/check_cool_plugin-1.0-1.el7.centos.x86_64
-Processing files: check_cool_plugin-1.0-1.el7.centos.x86_64
-error: File not found: /home/Jonathan/rpmbuild/BUILDROOT/check_cool_plugin-1.0-1.el7.centos.x86_64/SOURCES/plugin/install
-
-
-RPM build errors:
-    File not found: /home/Jonathan/rpmbuild/BUILDROOT/check_cool_plugin-1.0-1.el7.centos.x86_64/SOURCES/plugin/install
-[Jonathan@rpm-b rpmbuild]$ vim SPECS/check_cool_plugin.spec
-[Jonathan@rpm-b rpmbuild]$ rpmbuild -bb SPECS/check_cool_plugin.spec
-Executing(%prep): /bin/sh -e /home/Jonathan/rpmbuild/tmp/rpm-tmp.HYNFGc
-+ umask 022
-+ cd /home/Jonathan/rpmbuild/BUILD
-+ cd /home/Jonathan/rpmbuild/BUILD
-+ rm -rf check_cool_plugin-1.0
-+ /usr/bin/mkdir -p check_cool_plugin-1.0
-+ cd check_cool_plugin-1.0
-+ /usr/bin/tar -xf -
-+ /usr/bin/gzip -dc /home/Jonathan/rpmbuild/SOURCES/check_cool_plugin-1.0.tar.gz
-+ STATUS=0
-+ '[' 0 -ne 0 ']'
-+ /usr/bin/chmod -Rf a+rX,u+w,g-w,o-w .
-+ exit 0
-Executing(%build): /bin/sh -e /home/Jonathan/rpmbuild/tmp/rpm-tmp.k1g97r
-+ umask 022
-+ cd /home/Jonathan/rpmbuild/BUILD
-+ cd check_cool_plugin-1.0
-+ exit 0
-Executing(%install): /bin/sh -e /home/Jonathan/rpmbuild/tmp/rpm-tmp.KdzUBH
-+ umask 022
-+ cd /home/Jonathan/rpmbuild/BUILD
-+ '[' /home/Jonathan/rpmbuild/BUILDROOT/check_cool_plugin-1.0-1.el7.centos.x86_64 '!=' / ']'
-+ rm -rf /home/Jonathan/rpmbuild/BUILDROOT/check_cool_plugin-1.0-1.el7.centos.x86_64
-++ dirname /home/Jonathan/rpmbuild/BUILDROOT/check_cool_plugin-1.0-1.el7.centos.x86_64
-+ mkdir -p /home/Jonathan/rpmbuild/BUILDROOT
-+ mkdir /home/Jonathan/rpmbuild/BUILDROOT/check_cool_plugin-1.0-1.el7.centos.x86_64
-+ cd check_cool_plugin-1.0
-+ mkdir -p /home/Jonathan/rpmbuild/BUILDROOT/check_cool_plugin-1.0-1.el7.centos.x86_64
-+ cp -a SOURCES /home/Jonathan/rpmbuild/BUILDROOT/check_cool_plugin-1.0-1.el7.centos.x86_64
-Processing files: check_cool_plugin-1.0-1.el7.centos.x86_64
-Provides: check_cool_plugin = 1.0-1.el7.centos check_cool_plugin(x86-64) = 1.0-1.el7.centos
++ mkdir /home/Jonathan/rpmbuild/BUILDROOT/check_jwade005_plugin-1.0-1.el7.centos.x86_64
++ cd check_jwade005_plugin-1.0
++ rm -rf /home/Jonathan/rpmbuild/BUILDROOT/check_jwade005_plugin-1.0-1.el7.centos.x86_64
++ mkdir -p /home/Jonathan/rpmbuild/BUILDROOT/check_jwade005_plugin-1.0-1.el7.centos.x86_64/usr/lib64/nagios/plugins
++ install -m 0755 check_jwade005_plugin /home/Jonathan/rpmbuild/BUILDROOT/check_jwade005_plugin-1.0-1.el7.centos.x86_64/usr/lib64/nagios/plugins/check_jwade005_plugin
++ /usr/lib/rpm/find-debuginfo.sh --strict-build-id -m --run-dwz --dwz-low-mem-die-limit 10000000 --dwz-max-die-limit 110000000 /home/Jonathan/rpmbuild/BUILD/check_jwade005_plugin-1.0
+/usr/lib/rpm/sepdebugcrcfix: Updated 0 CRC32s, 0 CRC32s did match.
++ /usr/lib/rpm/check-buildroot
++ /usr/lib/rpm/redhat/brp-compress
++ /usr/lib/rpm/redhat/brp-strip-static-archive /usr/bin/strip
++ /usr/lib/rpm/brp-python-bytecompile /usr/bin/python 1
++ /usr/lib/rpm/redhat/brp-python-hardlink
++ /usr/lib/rpm/redhat/brp-java-repack-jars
+Processing files: check_jwade005_plugin-1.0-1.el7.centos.x86_64
+Provides: check_jwade005_plugin = 1.0-1.el7.centos check_jwade005_plugin(x86-64) = 1.0-1.el7.centos
 Requires(interp): /bin/sh
 Requires(rpmlib): rpmlib(CompressedFileNames) <= 3.0.4-1 rpmlib(FileDigests) <= 4.6.0-1 rpmlib(PayloadFilesHavePrefix) <= 4.0-1
 Requires(post): /bin/sh
-Checking for unpackaged file(s): /usr/lib/rpm/check-files /home/Jonathan/rpmbuild/BUILDROOT/check_cool_plugin-1.0-1.el7.centos.x86_64
-Wrote: /home/Jonathan/rpmbuild/RPMS/x86_64/check_cool_plugin-1.0-1.el7.centos.x86_64.rpm
-Executing(%clean): /bin/sh -e /home/Jonathan/rpmbuild/tmp/rpm-tmp.QQCn1c
+Requires: /bin/bash
+Processing files: check_jwade005_plugin-debuginfo-1.0-1.el7.centos.x86_64
+Provides: check_jwade005_plugin-debuginfo = 1.0-1.el7.centos check_jwade005_plugin-debuginfo(x86-64) = 1.0-1.el7.centos
+Requires(rpmlib): rpmlib(FileDigests) <= 4.6.0-1 rpmlib(PayloadFilesHavePrefix) <= 4.0-1 rpmlib(CompressedFileNames) <= 3.0.4-1
+Checking for unpackaged file(s): /usr/lib/rpm/check-files /home/Jonathan/rpmbuild/BUILDROOT/check_jwade005_plugin-1.0-1.el7.centos.x86_64
+Wrote: /home/Jonathan/rpmbuild/RPMS/x86_64/check_jwade005_plugin-1.0-1.el7.centos.x86_64.rpm
+Wrote: /home/Jonathan/rpmbuild/RPMS/x86_64/check_jwade005_plugin-debuginfo-1.0-1.el7.centos.x86_64.rpm
+Executing(%clean): /bin/sh -e /var/tmp/rpm-tmp.DLUPd7
 + umask 022
 + cd /home/Jonathan/rpmbuild/BUILD
-+ cd check_cool_plugin-1.0
++ cd check_jwade005_plugin-1.0
++ rm -rf /home/Jonathan/rpmbuild/BUILDROOT/check_jwade005_plugin-1.0-1.el7.centos.x86_64
 + exit 0
-
-[Jonathan@rpm-b rpmbuild]$ tree RPMS
-RPMS
-└── x86_64
-    ├── check_cool_plugin-1.0-1.el7.centos.x86_64.rpm
-    ├── check_cool_plugin-1.2-1.el7.centos.x86_64.rpm
-    ├── check_cool_plugin-debuginfo-1.0-1.el7.centos.x86_64.rpm
-    └── check_cool_plugin-debuginfo-1.2-1.el7.centos.x86_64.rpm
-
-1 directory, 4 files
-[Jonathan@rpm-b rpmbuild]$ rpm -qlp RPMS/x86_64/check_cool_plugin-1.0-1.el7.centos.x86_64.rpm
-/SOURCES/plugins/check_cool_plugin
-/SOURCES/plugins/install
