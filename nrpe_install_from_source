@@ -1,4 +1,4 @@
-# Install nrpe from source some lines omitted because we all make mistakes :)
+# Install nrpe from source some lines omitted because we all make mistakes and get sidetracked :)
 
 [Jonathan@rpm-b nrpe-3.1]$ history
     1  sudo yum -y install rpm-build
