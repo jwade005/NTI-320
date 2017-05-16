@@ -28,23 +28,23 @@ rpmbuild —
 
 	    name
 	    version
-	    source 			  —> this section is called the header
+	    source 		—> this section is called the header
 
 	    %setup
     <SOURCES>
 	    %configure		—> compilation —> grabs name-version.tar.gz from SOURCES —> untars into the BUILD dir —> runs ./configure —> make all
     <BUILD>	
-	    make 			    —> binaries have been compiled
+	    make 		—> binaries have been compiled
 
-	    %install			—>mkdir /usr/lib64/nagios/plugins
+	    %install		—>mkdir /usr/lib64/nagios/plugins
     <BUILDROOT>
 	    make install
 	    setup chroot environment	—> ***rpm is packaged here
 			                  					cp files to chroot environment
 
-	    %files					—> every file in the rpm and where it will be installed on the client system/permissions 
+	    %files		—> every file in the rpm and where it will be installed on the client system/permissions 
 
-	    %post			      —> insert bash commands
+	    %post		—> insert bash commands
 
 CHROOT ENVIRONMENT (change root env)
 	-zones
