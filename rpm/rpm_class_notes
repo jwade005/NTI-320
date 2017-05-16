@@ -22,7 +22,7 @@ rpmbuild —
 * compile and distribute
 
 	autoconf
-	automake			    —> these 2 are for C code
+	automake		—> these 2 are for C code
 
 ### .spec
 
