@@ -1,0 +1,17 @@
+#!/bin/bash
+
+if [test]; then
+okay
+exit 0;
+
+elif [anothertest]; then
+critical
+exit 2;
+
+elif [anothertest]; then
+warning
+exit 1;
+
+else
+exit (unknown code);
+fi
