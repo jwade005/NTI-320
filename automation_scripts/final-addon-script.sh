@@ -2,7 +2,7 @@ myusername="jwade005"                         # set this to your username
 mynagiosserver="nagios-a"                     # set this to your nagios server name
 mycactiserver="cacti-a"                      # set this to your cacti server
 myreposerver="yum-repo"                       # set this to your repo server
-mynagiosserverip="35.197.4.11"                   # set this to the ip address of your nagios server
+mynagiosserverip="35.185.217.151"                   # set this to the ip address of your nagios server
 
 generate_config.sh $1 $2              # code I gave you in a previous assignment that generates a nagios config
 
