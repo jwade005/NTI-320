@@ -70,15 +70,13 @@ sudo git clone https://github.com/jwade005/NTI-320.git /tmp/NTI-320
 sudo git config --global user.name "jwade005"
 sudo git config --global user.email "jwade005@seattlecentral.edu"
 
-myusername="jwade005"                         # set this to your username
+myusername="Jonathan"                         # set this to your username
 mynagiosserver="nagios-a"                     # set this to your nagios server name
 mycactiserver="cacti-a"                      # set this to your cacti server
 myreposerver="yum-repo"                       # set this to your repo server
 mynagiosserverip="35.185.217.151"                   # set this to the ip address of your nagios server
 
-
-sudo chmod +x /tmp/NTI-320/automation_scripts/generate_config.sh
-./tmp/NTI-320/automation_scripts/generate_config.sh $1 $2              # code I gave you in a previous assignment that generates a nagios config
+/tmp/NTI-320/automation_scripts/generate_config.sh $1 $2              # code I gave you in a previous assignment that generates a nagios config
 
 gcloud compute copy-files $1.cfg $myusername@$mynagiosserver:/etc/nagios/conf.d
 

@@ -1,4 +1,4 @@
-myusername="jwade005"                         # set this to your username
+myusername="Jonathan"                         # set this to your username
 mynagiosserver="nagios-a"                     # set this to your nagios server name
 mycactiserver="cacti-a"                      # set this to your cacti server
 myreposerver="yum-repo"                       # set this to your repo server
@@ -11,11 +11,11 @@ gcloud compute copy-files $1.cfg $myusername@$mynagiosserver:/etc/nagios/conf.d
                                       # note: I had to add user my gcloud user to group nagios using usermod -a -G nagios $myusername on my nagios server in order to make this work.
                                       # I also had to chmod 770 /etc/nagios/conf.d
 
-configstatus=$( \
+
 gcloud compute ssh $myusername@$mynagiosserver \
 "sudo /usr/sbin/nagios -v /etc/nagios/nagios.cfg" \
 | grep "Things look okay - No serious problems" \
-)
+
 
 if [[ $configstatus ]]; then
    gcloud compute ssh $myusername@$mynagiosserver "sudo systemctl restart nagios"
