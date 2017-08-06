@@ -11,7 +11,7 @@ host="$1"
 ip="$2"
 
 echo "
-# Define a host for the cacti-a machine
+# Define a host for the $host machine
 
 define host{
         use                     linux-server            ; Name of host template to use
@@ -30,7 +30,7 @@ define host{
 ###############################################################################
 ###############################################################################
 
-# Define a service to "ping" the cacti-a machine
+# Define a service to "ping" the $host machine
 
 define service{
         use                             generic-service         ; Name of service template to use
@@ -39,7 +39,7 @@ define service{
         check_command                   check_ping!100.0,20%!500.0,60%
         }
 
-# Define a service to check HTTP on the cacti-a machine.
+# Define a service to check HTTP on the $host machine.
 # Disable notifications for this service by default, as not all users may have HTTP enabled.
 
 define service{
@@ -51,7 +51,7 @@ define service{
         }
 
 # Define a service to check the disk space of the root partition
-# on the cacti-a machine.  Warning if < 20% free, critical if
+# on the $host machine.  Warning if < 20% free, critical if
 # < 10% free space on partition.
 
 define service{
@@ -62,7 +62,7 @@ define service{
 	}
 
 # Define a service to check the number of currently logged in
-# users on the cacti-a machine.  Warning if > 20 users, critical
+# users on the $host machine.  Warning if > 20 users, critical
 # if > 50 users.
 
 define service{
@@ -74,7 +74,7 @@ define service{
 
 
 # Define a service to check the number of currently running processes
-# on the cacti-a machine.  Warning if > 250 processes, critical if
+# on the $host machine.  Warning if > 250 processes, critical if
 # > 400 processes.
 
 define service{
@@ -84,7 +84,7 @@ define service{
         check_command			              check_nrpe!check_procs!250!400!RSZDT
   }
 
-# Define a service to check the load on the cacti-a machine.
+# Define a service to check the load on the $host machine.
 
 define service{
         use                             generic-service         ; Name of service template to use
@@ -93,7 +93,7 @@ define service{
         check_command			              check_nrpe!check_load!5.0,4.0,3.0!10.0,6.0,4.0
 	}
 
-# Define a service to check SSH on the cacti-a machine.
+# Define a service to check SSH on the $host machine.
 # Disable notifications for this service by default, as not all users may have SSH enabled.
 
 define service{
