@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# this is a script to add a yum repo on a given server.
+# adds yum repo on a server
 
 
-ip=$(gcloud compute instances list | grep postgres-c-production | awk '{print $4}') # will dynamically add ip address
+ip=$(gcloud compute instances list | grep yumrepo-a | awk '{print $4}') # will dynamically add ip address
 echo "[jwade005repo]
 
 name=jwade005repo NTI-320 - $basearch
