@@ -81,4 +81,4 @@ gcloud compute instances create django-a-test \
     --scopes cloud-platform \
     --metadata-from-file startup-script=/Users/Jonathan/desktop/NTI310/NTI-310/automation_scripts/apache-django-install.sh \
 
-echo "Jwade005's Google Cloud Final Project Automatic Installation Complete. :)"
+echo "Jwade005's Google Cloud NTI-320 Final Project Automatic Installation Complete. :)"
