@@ -42,7 +42,7 @@ mysql -u root  -pP@ssw0rd1 < stuff.sql                                       # *
 rpm -ql cacti|grep cacti.sql     # Will list the location of the package cacti sql script
 
 # run the cacti sql script
-mysql -u cacti -pP@ssw0rd1 cacti < /usr/share/doc/cacti-1.1.7/cacti.sql      # ******* add password support for automation
+mysql -u cacti -pP@ssw0rd1 cacti < /usr/share/doc/cacti-1.1.16/cacti.sql      # ******* add password support for automation
 
 # create sed lines to modify access   ******
 # vim /etc/httpd/conf.d/cacti.conf
@@ -52,7 +52,7 @@ sed -i 's/Allow from localhost/Allow from all all/' /etc/httpd/conf.d/cacti.conf
 # create sed lines to change username and password for cacti
 #vim /etc/cacti/db.php
 sed -i "s/\$database_username = 'cactiuser';/\$database_username = 'cacti';/" /etc/cacti/db.php
-sed -i "s/\$database_password = 'cactipass';/\$database_password = 'P@ssw0rd1';/" /etc/cacti/db.php
+sed -i "s/\$database_password = 'cactiuser';/\$database_password = 'P@ssw0rd1';/" /etc/cacti/db.php
 
 # restart httpd service
 systemctl restart httpd.service
@@ -64,35 +64,30 @@ sed -i 's/#//g' /etc/cron.d/cacti
 cp /etc/php.ini /etc/php.ini.orig
 sed -i 's/;date.timezone =/date.timezone = America\/Regina/' /etc/php.ini
 
-echo "Cloning jwade005's NTI-310 GitHub..."
-sudo yum -y install git
-sudo git clone https://github.com/jwade005/NTI-320.git /tmp/NTI-320
-sudo git config --global user.name "jwade005"
-sudo git config --global user.email "jwade005@seattlecentral.edu"
+#configuration of remote Centos 7 server for nagios monitoring
+# *****run as root*****
 
-myusername="Jonathan"                         # set this to your username
-mynagiosserver="nagios-a"                     # set this to your nagios server name
-mycactiserver="cacti-a"                      # set this to your cacti server
-myreposerver="yum-repo"                       # set this to your repo server
-mynagiosserverip="35.185.217.151"                   # set this to the ip address of your nagios server
 
-/tmp/NTI-320/automation_scripts/generate_config.sh $1 $2              # code I gave you in a previous assignment that generates a nagios config
+#install nrpe and nagios plugins
+yum -y install nrpe nagios-plugins-all
 
-gcloud compute copy-files $1.cfg $myusername@$mynagiosserver:/etc/nagios/conf.d
+#add check_mem plugin
+yum -y install wget
+cd /usr/lib64/nagios/plugins/
+wget https://raw.githubusercontent.com/justintime/nagios-plugins/master/check_mem/check_mem.pl
+mv check_mem.pl check_mem
+chmod +x check_mem
+./check_mem -f -w 20 -c 10
 
-                                      # note: I had to add user my gcloud user to group nagios using usermod -a -G nagios $myusername on my nagios server in order to make this work.
-                                      # I also had to chmod 770 /etc/nagios/conf.d
+#adjust nrpe allowed_hosts
+sed -i 's,allowed_hosts=127.0.0.1,allowed_hosts=127.0.0.1\,10.138.0.3,g' /etc/nagios/nrpe.cfg
+sed -i 's,dont_blame_nrpe=0,dont_blame_nrpe=1,g' /etc/nagios/nrpe.cfg
 
-configstatus=$( \
-gcloud compute ssh $myusername@$mynagiosserver \
-"sudo /usr/sbin/nagios -v /etc/nagios/nagios.cfg" \
-| grep "Things look okay - No serious problems" \
-)
+#adjust nrpe command definitions
+sed -i "215i command[check_disk]=\/usr\/lib64\/nagios\/plugins\/check_disk -w 20% -c 10% -p \/dev\/sda1" /etc/nagios/nrpe.cfg
+sed -i "216i command[check_procs]=\/usr\/lib64\/nagios\/plugins\/check_procs -w 150 -c 200" /etc/nagios/nrpe.cfg
+sed -i "217i command[check_mem]=/usr/lib64/nagios/plugins/check_mem  -f -w 20 -c 10" /etc/nagios/nrpe.cfg
 
-if [[ $configstatus ]]; then
-   gcloud compute ssh $myusername@$mynagiosserver "sudo systemctl restart nagios"
-   echo "$1 has been added to nagios."
-else
-   echo "There was a problem with the nagios config, please log into $mynagiosserver and run /usr/sbin/nagios -v /etc/nagios/nagios.cfg to figure out where the problem is";
-   exit 1;
-fi
+#start the nrpe service
+systemctl enable nrpe
+systemctl start nrpe
