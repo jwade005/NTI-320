@@ -19,7 +19,7 @@ gpgcheck=0
                                                                     # it shows up without error
 yum repolist
 
-isokay=`yum search "hello world" | grep "Matched: hello world"`
+isokay=`yum search "jwade005repo NTI-320" | grep "jwade005repo NTI-320"`
 
 if [ -z "$isokay" ]; then
    echo "There's somthing wrong with your repo... check yum repolist to see if it shows up then try installing a package"
