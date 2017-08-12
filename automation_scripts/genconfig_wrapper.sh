@@ -16,16 +16,24 @@ mynagiosserverip="35.197.81.237"                # ip address of your nagios serv
 
 generate_config.sh $1 $2              # script to generate nagios config $1 >> hostname, $2 >> host IP address
 
-gcloud compute copy-files $1.cfg $myusername@$mynagiosserver:/etc/nagios/conf.d
+#gcloud compute copy-files $1.cfg $myusername@$mynagiosserver:/etc/nagios/conf.d
 
                                       # note: add user Jonathan to group nagios using 'usermod -a -G nagios Jonathan' on nagios server
                                       # also chmod 770 /etc/nagios/conf.d
 
 
-gcloud compute ssh $myusername@$mynagiosserver \
-"sudo /usr/sbin/nagios -v /etc/nagios/nagios.cfg" \
-| grep "Things look okay - No serious problems" \
+# command to scp cfg file from instance to local directory
+gcloud compute scp test-vm-a:/home/Jonathan/test-vm-a.cfg /Users/Jonathan/ --ssh-key-file=/Users/Jonathan/.ssh/google_compute_engine --zone us-west1-a
 
+# command to scp cfg file from local directory to nagios server
+gcloud compute scp /Users/Jonathan/test-vm-a.cfg Jonathan@nagios-a:/etc/nagios/conf.d/ --ssh-key-file=/Users/Jonathan/.ssh/google_compute_engine --zone us-west1-a
+
+
+#gcloud compute ssh $myusername@$mynagiosserver \
+#"sudo /usr/sbin/nagios -v /etc/nagios/nagios.cfg" \
+#| grep "Things look okay - No serious problems" \
+
+gcloud compute ssh Jonathan@nagios-a --zone us-west1-a --command "sudo /usr/sbin/nagios -v /etc/nagios/nagios.cfg" | grep "Things look okay - No serious problems"
 
 if [[ $configstatus ]]; then
    gcloud compute ssh $myusername@$mynagiosserver "sudo systemctl restart nagios"
@@ -34,5 +42,3 @@ else
    echo "There was a problem with the nagios config, please log into $mynagiosserver and run /usr/sbin/nagios -v /etc/nagios/nagios.cfg to figure out where the problem is";
    exit 1;
 fi
-
-gcloud compute scp /home/Jonathan/test-vm-a.cfg \nagios-a:/etc/nagios/conf.d/ --ssh-key-file=~/.ssh/google_compute_engine --zone us-west1-a --quiet
