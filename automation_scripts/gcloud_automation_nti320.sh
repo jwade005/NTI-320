@@ -65,6 +65,14 @@ gcloud compute instances create rsyslog-server \
     --scopes cloud-platform \
     --metadata-from-file startup-script=/Users/Jonathan/desktop/NET320/NTI-320/automation_scripts/nagios-a.sh \
 
+echo "Creating the rpmbuild-server instance and running the install script..."
+gcloud compute instances create rpmbuild-server \
+    --image-family centos-7 \
+    --image-project centos-cloud \
+    --machine-type f1-micro \
+    --scopes cloud-platform \
+    --metadata-from-file startup-script=/Users/Jonathan/desktop/NET320/NTI-320/automation_scripts/rpm-install-centos7.sh \
+
 echo "Creating the rsyslog-server instance and running the install script..."
 gcloud compute instances create rsyslog-server \
     --image-family centos-7 \
@@ -104,5 +112,15 @@ gcloud compute instances create django-a-test \
     --machine-type f1-micro \
     --scopes cloud-platform \
     --metadata-from-file startup-script=/Users/Jonathan/desktop/NTI310/NTI-310/automation_scripts/apache-django-install.sh \
+
+sleep 120
+
+# add for loops to add nrpe to each isntance (nagios-remote-istall-yum.sh)
+
+# add for loops to create nagios config files for each instances (using genconfig_wrapper.sh)
+
+# add for loops to scp nagios config files to the nagios server and test configuration (using gcloud_scp_nagios.sh)
+
+# add for loops to add yum repository to each instance (using add_yum_repo.sh)
 
 echo "Jwade005's Google Cloud NTI-320 Final Project Automatic Installation Complete. :)"
