@@ -37,7 +37,7 @@ systemctl restart httpd
 chkconfig nagios on
 
 #adjust nrpe allowed_hosts
-sed -i 's,allowed_hosts=127.0.0.1,allowed_hosts=127.0.0.1\,10.138.0.0\/24,g' /etc/nagios/nrpe.cfg
+sed -i 's,allowed_hosts=127.0.0.1,allowed_hosts=127.0.0.1\,10.138.0.0\/20,g' /etc/nagios/nrpe.cfg
 sed -i 's,dont_blame_nrpe=0,dont_blame_nrpe=1,g' /etc/nagios/nrpe.cfg
 
 #create remote monitoring configuration
@@ -50,7 +50,7 @@ define host{
         use                     linux-server
         host_name               cacti-a
         alias                   cacti-a
-        address                 35.185.246.207
+        address                 10.138.0.2
         }
 
 ###############################################################################
@@ -142,7 +142,7 @@ define host{
         use                     linux-server
         host_name               yumrepo-a
         alias                   yumrepo-a
-        address                 35.185.246.207
+        address                 10.138.0.4
         }
 
 ###############################################################################
