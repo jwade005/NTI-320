@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# adds yum repo on a server
+# adds yum repo to server instance
 
 
 ip=$(gcloud compute instances list | grep yumrepo-a | awk '{print $4}') # will dynamically add ip address
