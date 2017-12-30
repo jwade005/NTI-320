@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# gcloud automation script modified for NTI320 final
+
 echo "This is jwade005's NTI-320 GCloud Automation"
 
 echo "Authorizing jwade005 for this project..."
