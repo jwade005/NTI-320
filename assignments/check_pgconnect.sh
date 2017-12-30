@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# nagios plugin 1
 # nagios plugin to check postgresql connections
 
 # Nagios States
