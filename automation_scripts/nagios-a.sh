@@ -18,6 +18,9 @@ yum -y install httpd
 systemctl enable httpd
 systemctl start httpd
 
+#stop html 'warning'
+touch /var/www/html/index.html
+
 #set nagios admin password
 htpasswd -b /etc/nagios/passwd nagiosadmin P@ssw0rd1
 
