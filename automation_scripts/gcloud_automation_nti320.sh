@@ -117,9 +117,16 @@ sleep 120
 
 # add for loops to add nrpe to each isntance (nagios-remote-istall-yum.sh)
 
-# add for loops to create nagios config files for each instances (using genconfig_wrapper.sh)
+for i in $( gcloud compute scp ~/LOCAL-FILE-1 ~/LOCAL-FILE-2 \
+      example-instance:~/REMOTE-DIR --zone us-central1-a
 
-# add for loops to scp nagios config files to the nagios server and test configuration (using gcloud_scp_nagios.sh)
+for i in $( gcloud compute instances list --zones us-west1-a | awk '{print $1}' | grep -v "NAME" );\
+do gcloud compute ssh --zone us-west1-a Jonathan@$i --command "chmod +x nagios-remote-install.sh";\
+done;
+
+# add wrapper script addon to startup scripts to create nagios config files for each instances (using genconfig_wrapper.sh)
+
+# add scp commands to send nagios config files to the nagios server and test configuration (using gcloud_scp_nagios.sh)
 
 # add for loops to add yum repository to each instance (using add_yum_repo.sh)
 
