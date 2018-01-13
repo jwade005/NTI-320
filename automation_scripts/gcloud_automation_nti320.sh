@@ -115,14 +115,7 @@ gcloud compute instances create django-a-test \
 
 sleep 120
 
-# add for loops to add nrpe to each isntance (nagios-remote-istall-yum.sh)
-
-for i in $( gcloud compute scp ~/LOCAL-FILE-1 ~/LOCAL-FILE-2 \
-      example-instance:~/REMOTE-DIR --zone us-central1-a
-
-for i in $( gcloud compute instances list --zones us-west1-a | awk '{print $1}' | grep -v "NAME" );\
-do gcloud compute ssh --zone us-west1-a Jonathan@$i --command "chmod +x nagios-remote-install.sh";\
-done;
+# add script to add nrpe to each isntance (nagios-remote-istall-yum.sh)
 
 # add wrapper script addon to startup scripts to create nagios config files for each instances (using genconfig_wrapper.sh)
 
