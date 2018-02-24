@@ -5,8 +5,12 @@
 # modify the date to be Automatic
 
 rm -f /etc/localtime
-ln -s /usr/share/zoneinfo/UTC /etc/localtime
+ln -s /usr/share/zoneinfo/America/Los_Angeles /etc/localtime
 date
+
+# install cacti
+
+yum install cacti -y
 
 # install support Packages
 
@@ -51,7 +55,7 @@ rpm -ql cacti|grep cacti.sql     # Will list the location of the package cacti s
 
 # run the cacti sql script
 
-mysql -u cacti -pP@ssw0rd1 cacti < /usr/share/doc/cacti-1.1.16/cacti.sql      # ******* add password support for automation
+mysql -u cacti -pP@ssw0rd1 cacti < /usr/share/doc/cacti-1.1.35/cacti.sql      # ******* add password support for automation
 
 # create sed lines to modify access   ******
 # vim /etc/httpd/conf.d/cacti.conf
@@ -65,6 +69,10 @@ sed -i 's/Allow from localhost/Allow from all all/' /etc/httpd/conf.d/cacti.conf
 sed -i "s/\$database_username = 'cactiuser';/\$database_username = 'cacti';/" /etc/cacti/db.php
 sed -i "s/\$database_password = 'cactiuser';/\$database_password = 'P@ssw0rd1';/" /etc/cacti/db.php
 
+# populate timezone settings in mysql
+
+mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql -u root -pP@ssw0rd1 mysql
+
 # restart httpd service
 
 systemctl restart httpd.service
@@ -76,7 +84,7 @@ sed -i 's/#//g' /etc/cron.d/cacti
 # add sed lines for timezone support    /etc/php.ini      *******
 
 cp /etc/php.ini /etc/php.ini.orig
-sed -i 's/;date.timezone =/date.timezone = America\/Regina/' /etc/php.ini
+sed -i 's/;date.timezone =/date.timezone = America\/Los_Angeles/' /etc/php.ini
 
 #c onfiguration of remote Centos 7 server for nagios monitoring
 # *****run as root*****

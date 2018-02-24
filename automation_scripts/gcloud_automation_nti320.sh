@@ -41,14 +41,6 @@ gcloud compute firewall-rules create allow-django --description "Django test ser
 gcloud compute firewall-rules create allow-ftp --description "FTP Allowed." \
     --allow tcp:21
 
-echo "Creating the cacti-a-server instance and running the install script..."
-gcloud compute instances create cacti-a \
-    --image-family centos-7 \
-    --image-project centos-cloud \
-    --machine-type f1-micro \
-    --scopes cloud-platform \
-    --metadata-from-file startup-script=/Users/Jonathan/desktop/NET320/NTI-320/automation_scripts/cacti-a.sh \
-
 echo "Creating the yum-repo-server instance and running the install script..."
 gcloud compute instances create rsyslog-server \
     --image-family centos-7 \
@@ -56,14 +48,6 @@ gcloud compute instances create rsyslog-server \
     --machine-type f1-micro \
     --scopes cloud-platform \
     --metadata-from-file startup-script=/Users/Jonathan/desktop/NET320/NTI-320/automation_scripts/create_yum_repo.sh \
-
-echo "Creating the nagios-a-server instance and running the install script..."
-gcloud compute instances create rsyslog-server \
-    --image-family centos-7 \
-    --image-project centos-cloud \
-    --machine-type f1-micro \
-    --scopes cloud-platform \
-    --metadata-from-file startup-script=/Users/Jonathan/desktop/NET320/NTI-320/automation_scripts/nagios-a.sh \
 
 echo "Creating the rpmbuild-server instance and running the install script..."
 gcloud compute instances create rpmbuild-server \
