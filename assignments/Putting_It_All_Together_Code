@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# instance spin up and startup script code
+
 echo "This is jwade005's NTI-320 GCloud Automation"
 
 echo "Authorizing jwade005 for this project..."
@@ -108,3 +110,7 @@ sleep 120
 
 
 echo "Jwade005's Google Cloud NTI-320 Final Project Automatic Installation Complete. :)"
+
+
+
+#
