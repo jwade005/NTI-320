@@ -58,7 +58,7 @@ gcloud compute instances create rsyslog-server \
     --image-project centos-cloud \
     --machine-type f1-micro \
     --scopes cloud-platform \
-    --metadata-from-file startup-script=/Users/Jonathan/desktop/NTI310/NTI-310/automation_scripts/rsyslog-server-install.sh \
+    --metadata-from-file startup-script=/Users/Jonathan/desktop/NET320/NTI-320/automation_scripts/rsyslog-server.sh \
 
 echo "Creating the ldap-server instance and running the install script..."
 gcloud compute instances create ldap-server \
@@ -151,7 +151,7 @@ mycactiserver="cacti-a"                      # set this to your cacti server
 myreposerver="yumrepo-a"                       # set this to your repo server
 mynagiosserverip="35.197.81.237"                   # set this to the ip address of your nagios server
 
-./home/Jonathan/NTI-320/automation_scripts/generate_config.sh $1 $2              # code I gave you in a previous assignment that generates a nagios config
+./home/Jonathan/NTI-320/automation_scripts/generate_config.sh rpmbuild-server 10.138.0.5              # code I gave you in a previous assignment that generates a nagios config
 
 gcloud compute scp $1.cfg $myusername@$mynagiosserver:/etc/nagios/conf.d --zone us-west1-a
 
