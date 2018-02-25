@@ -322,7 +322,7 @@ mycactiserver="cacti-a"                      # set this to your cacti server
 myreposerver="yumrepo-a"                       # set this to your repo server
 mynagiosserverip="35.197.81.237"                   # set this to the ip address of your nagios server
 
-./home/Jonathan/NTI-320/automation_scripts/generate_config.sh ldap-server 10.138.0.7              # code I gave you in a previous assignment that generates a nagios config
+./home/Jonathan/NTI-320/automation_scripts/generate_config.sh ldap-server 10.138.0.8              # code I gave you in a previous assignment that generates a nagios config
 
 gcloud compute scp $1.cfg $myusername@$mynagiosserver:/etc/nagios/conf.d --zone us-west1-a
 

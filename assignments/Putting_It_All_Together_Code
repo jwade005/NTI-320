@@ -74,7 +74,7 @@ gcloud compute instances create nfs-server \
     --image-project centos-cloud \
     --machine-type f1-micro \
     --scopes cloud-platform \
-    --metadata-from-file startup-script=/Users/Jonathan/desktop/NTI310/NTI-310/automation_scripts/nfs-server-install.sh \
+    --metadata-from-file startup-script=/Users/Jonathan/desktop/NET320/NTI-320/automation_scripts/nfs-server-install.sh \
 
 echo "Creating the postgres-a-test server and running the install script..."
 gcloud compute instances create postgres-a-test \
@@ -82,7 +82,7 @@ gcloud compute instances create postgres-a-test \
     --image-project centos-cloud \
     --machine-type f1-micro \
     --scopes cloud-platform \
-    --metadata-from-file startup-script=/Users/Jonathan/desktop/NTI310/NTI-310/automation_scripts/postgres-install.sh \
+    --metadata-from-file startup-script=/Users/Jonathan/desktop/NET320/NTI-320/automation_scripts/postgres-a-test-server.sh \
 
 echo "Creating the django-a-test server and running the install script..."
 gcloud compute instances create django-a-test \
@@ -90,7 +90,7 @@ gcloud compute instances create django-a-test \
     --image-project centos-cloud \
     --machine-type f1-micro \
     --scopes cloud-platform \
-    --metadata-from-file startup-script=/Users/Jonathan/desktop/NTI310/NTI-310/automation_scripts/apache-django-install.sh \
+    --metadata-from-file startup-script=/Users/Jonathan/desktop/NET320/NTI-320/automation_scripts/apache-django-install.sh \
 
 sleep 120
 
@@ -602,3 +602,473 @@ fi
 
 
 # nfs-server install script with support for nagios monitoring
+
+
+#!/bin/bash
+
+#nfs install centos7 server -- run as root
+
+#allow services through the firewall
+firewall-cmd --permanent --zone=public --add-service=nfs
+firewall-cmd --reload
+
+#install nfs
+yum -y install nfs-utils
+
+#start nfs server and services
+systemctl enable nfs-server.service
+systemctl start nfs-server.service
+#systemctl enable nfs-server
+systemctl enable nfs-lock
+systemctl enable nfs-idmapd
+systemctl enable rpcbind
+systemctl start rpcbind
+systemctl start nfs-lock
+systemctl start nfs-idmap
+
+
+#make directories and adjust ownership and permissions
+mkdir /var/dev
+chown nfsnobody:nfsnobody /var/dev
+chmod 755 /var/dev
+
+mkdir /var/config
+chown nfsnobody:nfsnobody /var/config
+chmod 755 /var/config
+
+#adjust /etc/exports to allow sharing of folders ***must use internal IPs***
+#vi /etc/exports
+#add these lines       ***use sed--add uncommented lines-empty file***
+echo "/home    *(rw,sync,no_all_squash)
+/var/dev       *(rw,sync,no_all_squash)
+/var/config    *(rw,sync,no_all_squash)" >> /etc/exports      #(rw sync no_all_squash) * after directory <-- add on all 3 lines
+
+
+#sed '1 a\/home           10.128.0.3(rw,sync,no_root_squash,no_subtree_check)'\n /etc/exports
+#sed '2 a\/var/dev        10.128.0.3(rw,sync,no_subtree_check)'\n /etc/exports
+#sed '3 a\/var/config     10.128.0.3(rw,sync,no_subtree_check)'\n /etc/exports
+
+#make changes take effect
+exportfs -a
+systemctl restart nfs-server
+
+# adds support for nagios monitoring
+
+echo "Cloning jwade005's github..."
+yum -y install git
+git clone https://github.com/jwade005/NTI-320.git
+
+chmod +x /home/Jonathan/NTI-320/automation_scripts/nagios-remote-install.sh
+chmod +x /home/Jonathan/NTI-320/automation_scripts/generate_config.sh
+
+./home/Jonathan/NTI-320/automation_scripts/nagios-remote-install.sh
+
+myusername="Jonathan"                         # set this to your username
+mynagiosserver="nagios-a"                     # set this to your nagios server name
+mycactiserver="cacti-a"                      # set this to your cacti server
+myreposerver="yumrepo-a"                       # set this to your repo server
+mynagiosserverip="35.197.81.237"                   # set this to the ip address of your nagios server
+
+./home/Jonathan/NTI-320/automation_scripts/generate_config.sh ldap-server 10.138.0.9              # code I gave you in a previous assignment that generates a nagios config
+
+gcloud compute scp $1.cfg $myusername@$mynagiosserver:/etc/nagios/conf.d --zone us-west1-a
+
+# gcloud compute scp /home/Jonathan/cacti-a2.cfg Jonathan@nagios-a:/etc/nagios/conf.d --zone us-west1-a
+
+                                      # note: I had to add user my gcloud user to group nagios using usermod -a -G nagios $myusername on my nagios server in order to make this work.
+                                      # I also had to chmod 770 /etc/nagios/conf.d
+
+
+gcloud compute ssh $myusername@$mynagiosserver \
+"sudo /usr/sbin/nagios -v /etc/nagios/nagios.cfg" \
+| grep "Things look okay - No serious problems" \
+
+
+if [[ $configstatus ]]; then
+   gcloud compute ssh $myusername@$mynagiosserver --command "sudo systemctl restart nagios" --zone us-west1-a
+   echo "$1 has been added to nagios."
+else
+   echo "There was a problem with the nagios config, please log into $mynagiosserver and run /usr/sbin/nagios -v /etc/nagios/nagios.cfg to figure out where the problem is";
+   exit 1;
+fi
+
+
+# install script for posgres-a-test server with support for nagios monitoring
+
+
+#!/bin/bash
+
+#postgresql install script -- test -- work in progress
+
+#install postgresql
+sudo yum -y install epel-release-7
+sudo yum -y install postgresql-server postgresql-contrib
+
+echo "Installing git..."
+sudo yum -y install git
+
+echo "Cloning jwade005's NTI-310 GitHub..."
+sudo git clone https://github.com/jwade005/NTI-310.git /tmp/NTI-310
+sudo git config --global user.name "jwade005"
+sudo git config --global user.email "jwade005@seattlecentral.edu"
+
+#setup initial database cluster
+
+sudo postgresql-setup initdb
+
+#install and start Apache
+sudo yum -y install httpd
+sudo systemctl enable httpd
+sudo systemctl start httpd
+
+#make a firewall rule for postgres
+
+sudo firewall-cmd --permanent --zone=public --add-service=postgresql
+sudo firewall-cmd --reload
+
+
+#enable and start the postgresql server
+
+sudo systemctl start postgresql
+sudo systemctl enable postgresql
+
+#use postgres account to setup database
+
+sudo cp /tmp/NTI-310/config_scripts/postgres.sql /var/lib/pgsql/postgres.sql
+sudo -i -u postgres psql -U postgres -f /var/lib/pgsql/postgres.sql
+
+#activate a postgres shell command prompt
+#psql  #psql man pages for auotmation
+#add a password for posgres user
+#\password    <------ *****Don't forget to set the postgres user password!!*****
+#create the database for django project1
+#CREATE DATABASE project1;
+#create a project1 user and password
+#CREATE USER project1 WITH PASSWORD 'P@ssw0rd1';
+#configure project1 users settings
+#ALTER ROLE project1 SET client_encoding TO 'utf8';
+#ALTER ROLE project1 SET default_transaction_isolation TO 'read committed';
+#ALTER ROLE project1 SET timezone TO 'UTC';
+#give database user project1 access rights to the database project1
+#GRANT ALL PRIVILEGES ON DATABASE project1 TO project1;
+#command \conninfo will give you connection info in the sql prompt
+#exit the sql prompt
+#\q
+#exit the postgres shell
+#exit
+
+#edit /var/lib/pgsql/data/postgresql.conf
+#listen_addresses = '*'                                           #<---- sed search and replace
+
+sudo sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /var/lib/pgsql/data/postgresql.conf
+
+#edit vi /var/lib/pgsql/data/pg_hba.conf
+#host    all             all             0.0.0.0/0      md5       #<---- sed search and replace
+
+sudo sed -i "s/ident/md5/g" /var/lib/pgsql/data/pg_hba.conf
+sudo sed -i -e "\$ahost    all             all             0.0.0.0/0      md5" /var/lib/pgsql/data/pg_hba.conf
+
+# This file is read on server startup and when the postmaster receives
+# a SIGHUP signal.  If you edit the file on a running system, you have
+# to SIGHUP the postmaster for the changes to take effect.  You can
+# use "pg_ctl reload" to do that.
+
+sudo -i -u postgres pg_ctl reload
+
+#use the following command to login as project1 user
+#psql -U project1
+
+#Install phpPgAdmin
+
+sudo yum -y install phpPgAdmin
+
+#edit /etc/httpd/conf.d/phpPgAdmin.conf  <-- sed search and replace
+#change Require Local --> Require all granted
+sudo sed -i 's,  Require local,  Require all granted,g' /etc/httpd/conf.d/phpPgAdmin.conf
+
+# edit /etc/phpPgAdmin/config.inc.php
+
+sudo cp /tmp/NTI-310/config_scripts/config.inc.php /etc/phpPgAdmin/config.inc.php
+
+#sudo sed -i "s,$conf['servers'][0]['host'] = 'localhost';,$conf['servers'][0]['host'] = 'localhost';,g"
+#sudo sed -i "s,$conf['servers'][0]['desc'] = 'PostgreSQL';,$conf['servers'][0]['desc'] = 'jwade005 PostgreSQL';,g"
+#sudo sed -i "s,$conf['servers'][0]['defaultdb'] = 'template1';,$conf['servers'][0]['defaultdb'] = 'postgres';,g"
+# $conf['servers'][0]['port'] = 5432;
+# $conf['extra_login_security'] = false;
+# $conf['owned_only'] = true;
+
+#allow db to connect on httpd
+
+sudo setsebool -P httpd_can_network_connect_db on
+
+#restart postgres and httpd services
+
+sudo systemctl restart postgresql
+sudo systemctl restart httpd
+
+#point browser to <serverIPaddress>/phpPgAdmin and login using postgres or project1 user to login
+echo "point browser to <serverIPaddress>/phpPgAdmin and login using postgres or project1 user to login."
+
+
+# adds support for nagios monitoring
+
+
+echo "Cloning jwade005's github..."
+yum -y install git
+git clone https://github.com/jwade005/NTI-320.git
+
+chmod +x /home/Jonathan/NTI-320/automation_scripts/nagios-remote-install.sh
+chmod +x /home/Jonathan/NTI-320/automation_scripts/generate_config.sh
+
+./home/Jonathan/NTI-320/automation_scripts/nagios-remote-install.sh
+
+myusername="Jonathan"                         # set this to your username
+mynagiosserver="nagios-a"                     # set this to your nagios server name
+mycactiserver="cacti-a"                      # set this to your cacti server
+myreposerver="yumrepo-a"                       # set this to your repo server
+mynagiosserverip="35.197.81.237"                   # set this to the ip address of your nagios server
+
+./home/Jonathan/NTI-320/automation_scripts/generate_config.sh postgres-a-test 10.138.0.10              # code I gave you in a previous assignment that generates a nagios config
+
+gcloud compute scp $1.cfg $myusername@$mynagiosserver:/etc/nagios/conf.d --zone us-west1-a
+
+# gcloud compute scp /home/Jonathan/cacti-a2.cfg Jonathan@nagios-a:/etc/nagios/conf.d --zone us-west1-a
+
+                                      # note: I had to add user my gcloud user to group nagios using usermod -a -G nagios $myusername on my nagios server in order to make this work.
+                                      # I also had to chmod 770 /etc/nagios/conf.d
+
+
+gcloud compute ssh $myusername@$mynagiosserver \
+"sudo /usr/sbin/nagios -v /etc/nagios/nagios.cfg" \
+| grep "Things look okay - No serious problems" \
+
+
+if [[ $configstatus ]]; then
+   gcloud compute ssh $myusername@$mynagiosserver --command "sudo systemctl restart nagios" --zone us-west1-a
+   echo "$1 has been added to nagios."
+else
+   echo "There was a problem with the nagios config, please log into $mynagiosserver and run /usr/sbin/nagios -v /etc/nagios/nagios.cfg to figure out where the problem is";
+   exit 1;
+fi
+
+
+# install script for django-a-test-server and adds support for nagios monitoring
+
+
+#!/bin/bash
+
+echo "Installing Apache server..."
+sudo yum -y install httpd
+
+echo "Starting HTTP service..."
+sudo systemctl enable httpd.service
+
+echo "Starting Apache Server..."
+sudo systemctl start httpd.service
+
+echo "Cloning jwade005's github..."
+sudo yum -y install git
+git clone https://github.com/jwade005/install_scripts.git
+git clone https://github.com/jwade005/NTI-310.git
+echo "Publishing Website..."
+sudo sh -c 'cat NTI-310/automation_scripts/index.html > /var/www/html/index.html'
+sudo sh -c 'cat install_scripts/page2.html > /var/www/html/page2.html'
+
+echo "Adjusting Permissions..."
+sudo chmod 644 /var/www/html/index.html
+sudo setenforce 0
+
+echo "Adjusting http.conf file..."
+sudo sed -i "151s/None/AuthConfig/1" /etc/httpd/conf/httpd.conf
+echo "Adding .htaccess and .htpasswrd files..."
+sudo sh -c 'cat install_scripts/.htaccess > /var/www/html/.htaccess'
+
+sudo sh -c 'cat install_scripts/.htpasswd > /var/www/html/.htpasswd'
+
+echo "Adjusting permissions..."
+sudo chmod 644 /var/www/html/.htaccess
+sudo chmod 644 /var/www/html/.htpasswd
+
+echo "Restarting HTTP service..."
+sudo service httpd restart
+
+echo "Beginning Django Web Framework install..."
+echo "Current version of Python:"
+
+python --version
+
+echo "Installing virtualenv to give Django it's own version of Python..."
+
+sudo rpm -iUvh https://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-9.noarch.rpm
+sudo yum -y install python-pip
+
+sudo pip install virtualenv
+cd /opt
+
+# we're going to install our django libs in /opt, often used for optional or add-on
+
+# we want to make this env accessible to the GCloud user because we don't want to have to run it as root
+
+sudo mkdir django
+sudo chown -R Jonathan django
+sleep 5
+cd django
+sudo virtualenv django-env
+
+echo "Activating virtualenv..."
+
+source /opt/django/django-env/bin/activate
+
+echo "To switch out of virtualenv, type deactivate."
+
+echo "Now using this version of Python:"
+
+which python
+sudo chown -R Jonathan /opt/django
+
+echo "Installing Django"
+
+pip install Django
+
+echo "Django admin is version:"
+
+django-admin --version
+django-admin startproject project1
+
+echo "Adjusting settings.py allowed_hosts..."
+sed -i "s,ALLOWED_HOSTS = \[\],ALLOWED_HOSTS = \['*'\],g" /opt/django/project1/project1/settings.py
+
+echo "This is the new django project directory..."
+
+sudo yum -y install tree
+tree project1
+
+echo "Go to https://docs.djangoproject.com/en/1.10/intro/tutorial01/ to begin first Django Project!"
+
+echo "Starting Django server..."
+
+sudo chmod 644 /opt/django/project1/manage.py
+sudo setenforce 0
+
+source /opt/django/django-env/bin/activate
+
+cd /opt/django/project1
+
+#echo "Migrating database files..."
+
+#python manage.py migrate
+
+echo "Django is now accessible from the web at [server IP]:8000..."
+
+#prepare django for postgresql integration -- install postgres dev packages
+
+sudo yum -y install python-devel postgresql-devel
+sudo yum -y install gcc
+
+#install psycopg2 to allow us to use the project1 database on postgres server
+
+pip install psycopg2
+
+#configure django database settings
+ip1=$(gcloud compute instances list | grep postgres-a-test | awk '{print $4}')
+
+
+sed -i "s/        'ENGINE': 'django.db.backends.sqlite3',/        'ENGINE': 'django.db.backends.postgresql_psycopg2',/g" /opt/django/project1/project1/settings.py
+sed -i "s/        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),/        'NAME': 'project1',/g" /opt/django/project1/project1/settings.py
+sed -i "80i 'USER': 'project1'," /opt/django/project1/project1/settings.py
+sed -i "81i 'PASSWORD': 'P@ssw0rd1'," /opt/django/project1/project1/settings.py
+sed -i "82i 'HOST': 'NEEDTOADDIP'," /opt/django/project1/project1/settings.py
+sed -i "83i 'PORT': '5432'," /opt/django/project1/project1/settings.py
+sed -i "s/'USER': 'project1',/        'USER': 'project1',/g" /opt/django/project1/project1/settings.py
+sed -i "s/'PASSWORD': 'P@ssw0rd1',/        'PASSWORD': 'P@ssw0rd1',/g" /opt/django/project1/project1/settings.py
+sed -i "s/'HOST': 'NEEDTOADDIP',/        'HOST': '$ip1',/g" /opt/django/project1/project1/settings.py
+sed -i "s/'PORT': '5432',/        'PORT': '5432',/g" /opt/django/project1/project1/settings.py
+
+
+#migrate databasae
+
+cd /opt/django/project1
+python manage.py makemigrations #*******
+python manage.py migrate
+
+#create user
+
+python manage.py createsuperuser #<-- will allow admin login
+#manage.py docs for automataing
+#python manage.py syncdb --noinput
+echo "from django.contrib.auth.models import User; User.objects.create_superuser('jonathan', 'jwade005@seattlecentral.edu', 'P@ssw0rd1')" | python manage.py shell
+
+#start djanngo server in the background <-- use fg to bring the process to the foreground and ctrl-c to quit
+python manage.py runserver 0.0.0.0:8000&
+
+#python manage.py runserver 0.0.0.0:8000
+#http://server_domain_or_IP:8000/admin
+#
+#
+# (django-env) [Jonathan@django-a-centos7 project1]$ python manage.py migrate
+# Operations to perform:
+#   Apply all migrations: admin, auth, contenttypes, sessions
+# Running migrations:
+#   Applying contenttypes.0001_initial... OK
+#   Applying auth.0001_initial... OK
+#   Applying admin.0001_initial... OK
+#   Applying admin.0002_logentry_remove_auto_add... OK
+#   Applying contenttypes.0002_remove_content_type_name... OK
+#   Applying auth.0002_alter_permission_name_max_length... OK
+#   Applying auth.0003_alter_user_email_max_length... OK
+#   Applying auth.0004_alter_user_username_opts... OK
+#   Applying auth.0005_alter_user_last_login_null... OK
+#   Applying auth.0006_require_contenttypes_0002... OK
+#   Applying auth.0007_alter_validators_add_error_messages... OK
+#   Applying auth.0008_alter_user_username_max_length... OK
+#   Applying sessions.0001_initial... OK
+# (django-env) [Jonathan@django-a-centos7 project1]$ python manage.py createsuperuser
+# Username (leave blank to use 'jonathan'):
+# Email address: jwade005@seattlecentral.edu
+# Password:
+# Password (again):
+# Superuser created successfully.
+
+
+# adds support for nagios monitoring
+
+echo "Cloning jwade005's github..."
+yum -y install git
+git clone https://github.com/jwade005/NTI-320.git
+
+chmod +x /home/Jonathan/NTI-320/automation_scripts/nagios-remote-install.sh
+chmod +x /home/Jonathan/NTI-320/automation_scripts/generate_config.sh
+
+./home/Jonathan/NTI-320/automation_scripts/nagios-remote-install.sh
+
+myusername="Jonathan"                         # set this to your username
+mynagiosserver="nagios-a"                     # set this to your nagios server name
+mycactiserver="cacti-a"                      # set this to your cacti server
+myreposerver="yumrepo-a"                       # set this to your repo server
+mynagiosserverip="35.197.81.237"                   # set this to the ip address of your nagios server
+
+./home/Jonathan/NTI-320/automation_scripts/generate_config.sh django-a-test 10.138.0.11              # code I gave you in a previous assignment that generates a nagios config
+
+gcloud compute scp $1.cfg $myusername@$mynagiosserver:/etc/nagios/conf.d --zone us-west1-a
+
+# gcloud compute scp /home/Jonathan/cacti-a2.cfg Jonathan@nagios-a:/etc/nagios/conf.d --zone us-west1-a
+
+                                      # note: I had to add user my gcloud user to group nagios using usermod -a -G nagios $myusername on my nagios server in order to make this work.
+                                      # I also had to chmod 770 /etc/nagios/conf.d
+
+
+gcloud compute ssh $myusername@$mynagiosserver \
+"sudo /usr/sbin/nagios -v /etc/nagios/nagios.cfg" \
+| grep "Things look okay - No serious problems" \
+
+
+if [[ $configstatus ]]; then
+   gcloud compute ssh $myusername@$mynagiosserver --command "sudo systemctl restart nagios" --zone us-west1-a
+   echo "$1 has been added to nagios."
+else
+   echo "There was a problem with the nagios config, please log into $mynagiosserver and run /usr/sbin/nagios -v /etc/nagios/nagios.cfg to figure out where the problem is";
+   exit 1;
+fi
+
+
+# script adds yumrepo to all servers on gcloud network
