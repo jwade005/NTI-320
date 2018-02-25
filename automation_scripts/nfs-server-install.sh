@@ -79,7 +79,7 @@ gcloud compute ssh $myusername@$mynagiosserver \
 
 
 if [[ $configstatus ]]; then
-   gcloud compute ssh $myusername@$mynagiosserver "sudo systemctl restart nagios" --zone us-west1-a
+   gcloud compute ssh $myusername@$mynagiosserver --command "sudo systemctl restart nagios" --zone us-west1-a
    echo "$1 has been added to nagios."
 else
    echo "There was a problem with the nagios config, please log into $mynagiosserver and run /usr/sbin/nagios -v /etc/nagios/nagios.cfg to figure out where the problem is";
