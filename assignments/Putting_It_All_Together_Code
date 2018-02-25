@@ -153,7 +153,9 @@ mynagiosserverip="35.197.81.237"                   # set this to the ip address 
 
 ./home/Jonathan/NTI-320/automation_scripts/generate_config.sh $1 $2              # code I gave you in a previous assignment that generates a nagios config
 
-gcloud compute scp $1.cfg $myusername@$mynagiosserver:/etc/nagios/conf.d
+gcloud compute scp $1.cfg $myusername@$mynagiosserver:/etc/nagios/conf.d --zone us-west1-a
+
+# gcloud compute scp /home/Jonathan/cacti-a2.cfg Jonathan@nagios-a:/etc/nagios/conf.d --zone us-west1-a
 
                                       # note: I had to add user my gcloud user to group nagios using usermod -a -G nagios $myusername on my nagios server in order to make this work.
                                       # I also had to chmod 770 /etc/nagios/conf.d
@@ -173,4 +175,4 @@ else
 fi
 
 
-#
+# rsyslog-server install with support for nagios
