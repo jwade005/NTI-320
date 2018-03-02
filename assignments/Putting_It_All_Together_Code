@@ -94,14 +94,19 @@ gcloud compute instances create django-a-test \
 
 sleep 120
 
-# add script to add nrpe to each isntance (nagios-remote-istall-yum.sh)
+# add script to add nrpe to each isntance (nagios-remote-istall-yum.sh) DONE
 
-# add wrapper script addon to startup scripts to create nagios config files for each instances (using genconfig_wrapper.sh)
+# add wrapper script addon to startup scripts to create nagios config files for each instances (using genconfig_wrapper.sh) DONE
 
-# add scp commands to send nagios config files to the nagios server and test configuration (using gcloud_scp_nagios.sh)
+# add scp commands to send nagios config files to the nagios server and test configuration (using gcloud_scp_nagios.sh) DONE
 
-# add for loops to add yum repository to each instance (using add_yum_repo.sh)
 
+# script adds yumrepo to all servers on gcloud network
+
+
+for i in $( gcloud compute instances list --zones us-west1-a | awk '{print $1}' | grep -v "NAME" );\
+do gcloud compute ssh --zone us-west1-a Jonathan@$i --command "./Users/Jonathan/desktop/NET320/NTI-320/automation_scripts/add_yum_repo.sh";\
+done;
 
 # exmaple for loop
 # [root@test-vm-a Jonathan]# for i in $( gcloud compute instances list --zones us-west1-a | awk '{print $1}' | grep -v "NAME" );\
@@ -140,10 +145,10 @@ echo "Cloning jwade005's github..."
 yum -y install git
 git clone https://github.com/jwade005/NTI-320.git
 
-chmod +x /home/Jonathan/NTI-320/automation_scripts/nagios-remote-install.sh
+chmod +x /home/Jonathan/NTI-320/automation_scripts/nagios-remote-install-yum.sh
 chmod +x /home/Jonathan/NTI-320/automation_scripts/generate_config.sh
 
-./home/Jonathan/NTI-320/automation_scripts/nagios-remote-install.sh
+./home/Jonathan/NTI-320/automation_scripts/nagios-remote-install-yum.sh
 
 myusername="Jonathan"                         # set this to your username
 mynagiosserver="nagios-a"                     # set this to your nagios server name
@@ -213,10 +218,10 @@ echo "Cloning jwade005's github..."
 yum -y install git
 git clone https://github.com/jwade005/NTI-320.git
 
-chmod +x /home/Jonathan/NTI-320/automation_scripts/nagios-remote-install.sh
+chmod +x /home/Jonathan/NTI-320/automation_scripts/nagios-remote-install-yum.sh
 chmod +x /home/Jonathan/NTI-320/automation_scripts/generate_config.sh
 
-./home/Jonathan/NTI-320/automation_scripts/nagios-remote-install.sh
+./home/Jonathan/NTI-320/automation_scripts/nagios-remote-install-yum.sh
 
 myusername="Jonathan"                         # set this to your username
 mynagiosserver="nagios-a"                     # set this to your nagios server name
@@ -565,10 +570,10 @@ echo "Cloning jwade005's github..."
 yum -y install git
 git clone https://github.com/jwade005/NTI-320.git
 
-chmod +x /home/Jonathan/NTI-320/automation_scripts/nagios-remote-install.sh
+chmod +x /home/Jonathan/NTI-320/automation_scripts/nagios-remote-install-yum.sh
 chmod +x /home/Jonathan/NTI-320/automation_scripts/generate_config.sh
 
-./home/Jonathan/NTI-320/automation_scripts/nagios-remote-install.sh
+./home/Jonathan/NTI-320/automation_scripts/nagios-remote-install-yum.sh
 
 myusername="Jonathan"                         # set this to your username
 mynagiosserver="nagios-a"                     # set this to your nagios server name
@@ -658,10 +663,10 @@ echo "Cloning jwade005's github..."
 yum -y install git
 git clone https://github.com/jwade005/NTI-320.git
 
-chmod +x /home/Jonathan/NTI-320/automation_scripts/nagios-remote-install.sh
+chmod +x /home/Jonathan/NTI-320/automation_scripts/nagios-remote-install-yum.sh
 chmod +x /home/Jonathan/NTI-320/automation_scripts/generate_config.sh
 
-./home/Jonathan/NTI-320/automation_scripts/nagios-remote-install.sh
+./home/Jonathan/NTI-320/automation_scripts/nagios-remote-install-yum.sh
 
 myusername="Jonathan"                         # set this to your username
 mynagiosserver="nagios-a"                     # set this to your nagios server name
@@ -669,7 +674,7 @@ mycactiserver="cacti-a"                      # set this to your cacti server
 myreposerver="yumrepo-a"                       # set this to your repo server
 mynagiosserverip="35.197.81.237"                   # set this to the ip address of your nagios server
 
-./home/Jonathan/NTI-320/automation_scripts/generate_config.sh ldap-server 10.138.0.9              # code I gave you in a previous assignment that generates a nagios config
+./home/Jonathan/NTI-320/automation_scripts/generate_config.sh nfs-server 10.138.0.9              # code I gave you in a previous assignment that generates a nagios config
 
 gcloud compute scp $1.cfg $myusername@$mynagiosserver:/etc/nagios/conf.d --zone us-west1-a
 
@@ -817,10 +822,10 @@ echo "Cloning jwade005's github..."
 yum -y install git
 git clone https://github.com/jwade005/NTI-320.git
 
-chmod +x /home/Jonathan/NTI-320/automation_scripts/nagios-remote-install.sh
+chmod +x /home/Jonathan/NTI-320/automation_scripts/nagios-remote-install-yum.sh
 chmod +x /home/Jonathan/NTI-320/automation_scripts/generate_config.sh
 
-./home/Jonathan/NTI-320/automation_scripts/nagios-remote-install.sh
+./home/Jonathan/NTI-320/automation_scripts/nagios-remote-install-yum.sh
 
 myusername="Jonathan"                         # set this to your username
 mynagiosserver="nagios-a"                     # set this to your nagios server name
@@ -1036,10 +1041,10 @@ echo "Cloning jwade005's github..."
 yum -y install git
 git clone https://github.com/jwade005/NTI-320.git
 
-chmod +x /home/Jonathan/NTI-320/automation_scripts/nagios-remote-install.sh
+chmod +x /home/Jonathan/NTI-320/automation_scripts/nagios-remote-install-yum.sh
 chmod +x /home/Jonathan/NTI-320/automation_scripts/generate_config.sh
 
-./home/Jonathan/NTI-320/automation_scripts/nagios-remote-install.sh
+./home/Jonathan/NTI-320/automation_scripts/nagios-remote-install-yum.sh
 
 myusername="Jonathan"                         # set this to your username
 mynagiosserver="nagios-a"                     # set this to your nagios server name
