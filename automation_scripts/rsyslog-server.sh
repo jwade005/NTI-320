@@ -33,10 +33,10 @@ echo "Cloning jwade005's github..."
 yum -y install git
 git clone https://github.com/jwade005/NTI-320.git
 
-chmod +x /home/Jonathan/NTI-320/automation_scripts/nagios-remote-install.sh
+chmod +x /home/Jonathan/NTI-320/automation_scripts/nagios-remote-install-yum.sh
 chmod +x /home/Jonathan/NTI-320/automation_scripts/generate_config.sh
 
-./home/Jonathan/NTI-320/automation_scripts/nagios-remote-install.sh
+./home/Jonathan/NTI-320/automation_scripts/nagios-remote-install-yum.sh
 
 myusername="Jonathan"                         # set this to your username
 mynagiosserver="nagios-a"                     # set this to your nagios server name
