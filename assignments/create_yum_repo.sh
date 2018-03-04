@@ -7,7 +7,7 @@
 yum -y install createrepo
 mkdir -p /repos/CentOS/7/x86_64/Packages/
 
-gcloud compute scp ~/desktop/net320/check_jwade005_plugin-1.0-1.el7.centos.x86_64.rpm \yumrepo-a:/home/Jonathan/ --ssh-key-file=/Users/Jonathan/.ssh/google_compute_engine --zone us-west1-a
+gcloud compute scp ~/Desktop/net320/check_jwade005_plugin-1.0-1.el7.centos.x86_64.rpm \yumrepo-a:/home/Jonathan/ --ssh-key-file=/Users/Jonathan/.ssh/google_compute_engine --zone us-west1-a
 
 mv check_jwade005_plugin-1.0-1.el7.centos.x86_64.rpm /repos/CentOS/7/x86_64/Packages/
 

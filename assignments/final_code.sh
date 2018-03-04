@@ -50,7 +50,7 @@ gcloud compute instances create rpmbuild-server \
     --image-project centos-cloud \
     --machine-type f1-micro \
     --scopes cloud-platform \
-    --metadata-from-file startup-script=/Users/Jonathan/desktop/NET320/NTI-320/automation_scripts/rpm-install-centos7.sh \
+    --metadata-from-file startup-script=/Users/Jonathan/Desktop/NET320/NTI-320/automation_scripts/rpm-install-centos7.sh \
 
 echo "Creating the rsyslog-server instance and running the install script..."
 gcloud compute instances create rsyslog-server \
@@ -58,7 +58,7 @@ gcloud compute instances create rsyslog-server \
     --image-project centos-cloud \
     --machine-type f1-micro \
     --scopes cloud-platform \
-    --metadata-from-file startup-script=/Users/Jonathan/desktop/NET320/NTI-320/automation_scripts/rsyslog-server.sh \
+    --metadata-from-file startup-script=/Users/Jonathan/Desktop/NET320/NTI-320/automation_scripts/rsyslog-server.sh \
 
 echo "Creating the ldap-server instance and running the install script..."
 gcloud compute instances create ldap-server \
@@ -66,7 +66,7 @@ gcloud compute instances create ldap-server \
     --image-project centos-cloud \
     --machine-type f1-micro \
     --scopes cloud-platform \
-    --metadata-from-file startup-script=/Users/Jonathan/desktop/NET320/NTI-320/automation_scripts/ldap-server-install.sh \
+    --metadata-from-file startup-script=/Users/Jonathan/Desktop/NET320/NTI-320/automation_scripts/ldap-server-install.sh \
 
 echo "Creating the nfs-server and running the install script..."
 gcloud compute instances create nfs-server \
@@ -74,7 +74,7 @@ gcloud compute instances create nfs-server \
     --image-project centos-cloud \
     --machine-type f1-micro \
     --scopes cloud-platform \
-    --metadata-from-file startup-script=/Users/Jonathan/desktop/NET320/NTI-320/automation_scripts/nfs-server-install.sh \
+    --metadata-from-file startup-script=/Users/Jonathan/Desktop/NET320/NTI-320/automation_scripts/nfs-server-install.sh \
 
 echo "Creating the postgres-a-test server and running the install script..."
 gcloud compute instances create postgres-a-test \
@@ -82,7 +82,7 @@ gcloud compute instances create postgres-a-test \
     --image-project centos-cloud \
     --machine-type f1-micro \
     --scopes cloud-platform \
-    --metadata-from-file startup-script=/Users/Jonathan/desktop/NET320/NTI-320/automation_scripts/postgres-a-test-server.sh \
+    --metadata-from-file startup-script=/Users/Jonathan/Desktop/NET320/NTI-320/automation_scripts/postgres-a-test-server.sh \
 
 echo "Creating the django-a-test server and running the install script..."
 gcloud compute instances create django-a-test \
@@ -90,7 +90,7 @@ gcloud compute instances create django-a-test \
     --image-project centos-cloud \
     --machine-type f1-micro \
     --scopes cloud-platform \
-    --metadata-from-file startup-script=/Users/Jonathan/desktop/NET320/NTI-320/automation_scripts/apache-django-install.sh \
+    --metadata-from-file startup-script=/Users/Jonathan/Desktop/NET320/NTI-320/automation_scripts/apache-django-install.sh \
 
 sleep 120
 
@@ -116,7 +116,7 @@ mynagiosserverip="35.227.159.216"                   # set this to the ip address
 
 ip1=$(gcloud compute instances list | grep rpmbuild-server | awk '{print $4}')
 
-./Users/Jonathan/desktop/NET320/NTI-320/automation_scripts/generate_config.sh rpmbuild-server $ip1              # code I gave you in a previous assignment that generates a nagios config
+./Users/Jonathan/Desktop/NET320/NTI-320/automation_scripts/generate_config.sh rpmbuild-server $ip1              # code I gave you in a previous assignment that generates a nagios config
 
 gcloud compute scp $1.cfg $myusername@$mynagiosserver:/etc/nagios/conf.d --zone us-west1-a
 
@@ -144,7 +144,7 @@ mynagiosserverip="35.227.159.216"                   # set this to the ip address
 
 ip1=$(gcloud compute instances list | grep rsyslog-server | awk '{print $4}')
 
-./Users/Jonathan/desktop/NET320/NTI-320/automation_scripts/generate_config.sh rsyslog-server $ip1              # code I gave you in a previous assignment that generates a nagios config
+./Users/Jonathan/Desktop/NET320/NTI-320/automation_scripts/generate_config.sh rsyslog-server $ip1              # code I gave you in a previous assignment that generates a nagios config
 
 gcloud compute scp $1.cfg $myusername@$mynagiosserver:/etc/nagios/conf.d --zone us-west1-a
 
@@ -172,7 +172,7 @@ mynagiosserverip="35.227.159.216"                   # set this to the ip address
 
 ip1=$(gcloud compute instances list | grep ldap-server | awk '{print $4}')
 
-./Users/Jonathan/desktop/NET320/NTI-320/automation_scripts/generate_config.sh ldap-server $ip1             # code I gave you in a previous assignment that generates a nagios config
+./Users/Jonathan/Desktop/NET320/NTI-320/automation_scripts/generate_config.sh ldap-server $ip1             # code I gave you in a previous assignment that generates a nagios config
 
 gcloud compute scp $1.cfg $myusername@$mynagiosserver:/etc/nagios/conf.d --zone us-west1-a
 
@@ -200,7 +200,7 @@ mynagiosserverip="35.227.159.216"                   # set this to the ip address
 
 ip1=$(gcloud compute instances list | grep nfs-server | awk '{print $4}')
 
-./Users/Jonathan/desktop/NET320/NTI-320/automation_scripts/generate_config.sh ldap-server $ip1              # code I gave you in a previous assignment that generates a nagios config
+./Users/Jonathan/Desktop/NET320/NTI-320/automation_scripts/generate_config.sh ldap-server $ip1              # code I gave you in a previous assignment that generates a nagios config
 
 gcloud compute scp $1.cfg $myusername@$mynagiosserver:/etc/nagios/conf.d --zone us-west1-a
 
@@ -228,7 +228,7 @@ mynagiosserverip="35.227.159.216"                   # set this to the ip address
 
 ip1=$(gcloud compute instances list | grep postgres-a-test | awk '{print $4}')
 
-./Users/Jonathan/desktop/NET320/NTI-320/automation_scripts/generate_config.sh postgres-a-test $ip1              # code I gave you in a previous assignment that generates a nagios config
+./Users/Jonathan/Desktop/NET320/NTI-320/automation_scripts/generate_config.sh postgres-a-test $ip1              # code I gave you in a previous assignment that generates a nagios config
 
 gcloud compute scp $1.cfg $myusername@$mynagiosserver:/etc/nagios/conf.d --zone us-west1-a
 
@@ -256,7 +256,7 @@ mynagiosserverip="35.227.159.216"                   # set this to the ip address
 
 ip1=$(gcloud compute instances list | grep django-a-test | awk '{print $4}')
 
-./Users/Jonathan/desktop/NET320/NTI-320/automation_scripts/generate_config.sh django-a-test $ip1             # code I gave you in a previous assignment that generates a nagios config
+./Users/Jonathan/Desktop/NET320/NTI-320/automation_scripts/generate_config.sh django-a-test $ip1             # code I gave you in a previous assignment that generates a nagios config
 
 gcloud compute scp $1.cfg $myusername@$mynagiosserver:/etc/nagios/conf.d --zone us-west1-a
 
@@ -276,7 +276,7 @@ fi
 # script adds yumrepo to all servers on gcloud network
 
 for i in $( gcloud compute instances list --zones us-west1-a | awk '{print $1}' | grep -v "NAME" );\
-do gcloud compute ssh --zone us-west1-a Jonathan@$i --command "./Users/Jonathan/desktop/NET320/NTI-320/automation_scripts/add_yum_repo.sh";\
+do gcloud compute ssh --zone us-west1-a Jonathan@$i --command "./Users/Jonathan/Desktop/NET320/NTI-320/automation_scripts/add_yum_repo.sh";\
 done;
 
 # exmaple for loop
