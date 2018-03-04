@@ -179,5 +179,5 @@ echo "Cloning jwade005's github..."
 yum -y install git
 git clone https://github.com/jwade005/NTI-320.git
 
-chmod +x /home/Jonathan/NTI-320/automation_scripts/nagios-remote-install-yum.sh
-./home/Jonathan/NTI-320/automation_scripts/nagios-remote-install-yum.sh
+chmod +x /NTI-320/automation_scripts/nagios-remote-install-yum.sh
+./NTI-320/automation_scripts/nagios-remote-install-yum.sh
