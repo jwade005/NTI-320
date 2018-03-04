@@ -121,7 +121,7 @@ ip1=$(gcloud compute instances list | grep rpmbuild-server | awk '{print $4}')
 gcloud compute scp $1.cfg $myusername@$mynagiosserver:/etc/nagios/conf.d --zone us-west1-a
 
 gcloud compute ssh $myusername@$mynagiosserver \
-"sudo /usr/sbin/nagios -v /etc/nagios/nagios.cfg" \
+--command "sudo /usr/sbin/nagios -v /etc/nagios/nagios.cfg" \
 | grep "Things look okay - No serious problems" \
 
 
@@ -149,7 +149,7 @@ ip1=$(gcloud compute instances list | grep rsyslog-server | awk '{print $4}')
 gcloud compute scp $1.cfg $myusername@$mynagiosserver:/etc/nagios/conf.d --zone us-west1-a
 
 gcloud compute ssh $myusername@$mynagiosserver \
-"sudo /usr/sbin/nagios -v /etc/nagios/nagios.cfg" \
+--command "sudo /usr/sbin/nagios -v /etc/nagios/nagios.cfg" \
 | grep "Things look okay - No serious problems" \
 
 
@@ -177,7 +177,7 @@ ip1=$(gcloud compute instances list | grep ldap-server | awk '{print $4}')
 gcloud compute scp $1.cfg $myusername@$mynagiosserver:/etc/nagios/conf.d --zone us-west1-a
 
 gcloud compute ssh $myusername@$mynagiosserver \
-"sudo /usr/sbin/nagios -v /etc/nagios/nagios.cfg" \
+--command "sudo /usr/sbin/nagios -v /etc/nagios/nagios.cfg" \
 | grep "Things look okay - No serious problems" \
 
 
@@ -205,7 +205,7 @@ ip1=$(gcloud compute instances list | grep nfs-server | awk '{print $4}')
 gcloud compute scp $1.cfg $myusername@$mynagiosserver:/etc/nagios/conf.d --zone us-west1-a
 
 name@$mynagiosserver \
-"sudo /usr/sbin/nagios -v /etc/nagios/nagios.cfg" \
+--command "sudo /usr/sbin/nagios -v /etc/nagios/nagios.cfg" \
 | grep "Things look okay - No serious problems" \
 
 
@@ -233,7 +233,7 @@ ip1=$(gcloud compute instances list | grep postgres-a-test | awk '{print $4}')
 gcloud compute scp $1.cfg $myusername@$mynagiosserver:/etc/nagios/conf.d --zone us-west1-a
 
 gcloud compute ssh $myusername@$mynagiosserver \
-"sudo /usr/sbin/nagios -v /etc/nagios/nagios.cfg" \
+--command "sudo /usr/sbin/nagios -v /etc/nagios/nagios.cfg" \
 | grep "Things look okay - No serious problems" \
 
 
@@ -261,7 +261,7 @@ ip1=$(gcloud compute instances list | grep django-a-test | awk '{print $4}')
 gcloud compute scp $1.cfg $myusername@$mynagiosserver:/etc/nagios/conf.d --zone us-west1-a
 
 gcloud compute ssh $myusername@$mynagiosserver \
-"sudo /usr/sbin/nagios -v /etc/nagios/nagios.cfg" \
+--command "sudo /usr/sbin/nagios -v /etc/nagios/nagios.cfg" \
 | grep "Things look okay - No serious problems" \
 
 
