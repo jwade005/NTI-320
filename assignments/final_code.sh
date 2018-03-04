@@ -101,8 +101,179 @@ sleep 120
 # add scp commands to send nagios config files to the nagios server and test configuration (using gcloud_scp_nagios.sh) DONE
 
 
-# script adds yumrepo to all servers on gcloud network
+# NAGIOS SUPPORT
 
+
+# rpmbuild-server
+
+#adds support for nagios monitoring
+
+myusername="Jonathan"                         # set this to your username
+mynagiosserver="nagios-a"                     # set this to your nagios server name
+mycactiserver="cacti-a"                      # set this to your cacti server
+myreposerver="yumrepo-a"                       # set this to your repo server
+mynagiosserverip="35.227.159.216"                   # set this to the ip address of your nagios server
+
+ip1=$(gcloud compute instances list | grep rpmbuild-server | awk '{print $4}')
+
+./Users/Jonathan/desktop/NET320/NTI-320/automation_scripts/generate_config.sh rpmbuild-server $ip1              # code I gave you in a previous assignment that generates a nagios config
+
+gcloud compute scp $1.cfg $myusername@$mynagiosserver:/etc/nagios/conf.d --zone us-west1-a
+
+gcloud compute ssh $myusername@$mynagiosserver \
+"sudo /usr/sbin/nagios -v /etc/nagios/nagios.cfg" \
+| grep "Things look okay - No serious problems" \
+
+
+if [[ $configstatus ]]; then
+   gcloud compute ssh $myusername@$mynagiosserver --command "sudo systemctl restart nagios" --zone us-west1-a
+   echo "$1 has been added to nagios."
+else
+   echo "There was a problem with the nagios config, please log into $mynagiosserver and run /usr/sbin/nagios -v /etc/nagios/nagios.cfg to figure out where the problem is";
+   exit 1;
+fi
+
+
+#rsyslog-server
+
+myusername="Jonathan"                         # set this to your username
+mynagiosserver="nagios-a"                     # set this to your nagios server name
+mycactiserver="cacti-a"                      # set this to your cacti server
+myreposerver="yumrepo-a"                       # set this to your repo server
+mynagiosserverip="35.227.159.216"                   # set this to the ip address of your nagios server
+
+ip1=$(gcloud compute instances list | grep rsyslog-server | awk '{print $4}')
+
+./Users/Jonathan/desktop/NET320/NTI-320/automation_scripts/generate_config.sh rsyslog-server $ip1              # code I gave you in a previous assignment that generates a nagios config
+
+gcloud compute scp $1.cfg $myusername@$mynagiosserver:/etc/nagios/conf.d --zone us-west1-a
+
+gcloud compute ssh $myusername@$mynagiosserver \
+"sudo /usr/sbin/nagios -v /etc/nagios/nagios.cfg" \
+| grep "Things look okay - No serious problems" \
+
+
+if [[ $configstatus ]]; then
+   gcloud compute ssh $myusername@$mynagiosserver "sudo systemctl restart nagios"
+   echo "$1 has been added to nagios."
+else
+   echo "There was a problem with the nagios config, please log into $mynagiosserver and run /usr/sbin/nagios -v /etc/nagios/nagios.cfg to figure out where the problem is";
+   exit 1;
+fi
+
+
+#ldap-server
+
+myusername="Jonathan"                         # set this to your username
+mynagiosserver="nagios-a"                     # set this to your nagios server name
+mycactiserver="cacti-a"                      # set this to your cacti server
+myreposerver="yumrepo-a"                       # set this to your repo server
+mynagiosserverip="35.227.159.216"                   # set this to the ip address of your nagios server
+
+ip1=$(gcloud compute instances list | grep ldap-server | awk '{print $4}')
+
+./Users/Jonathan/desktop/NET320/NTI-320/automation_scripts/generate_config.sh ldap-server $ip1             # code I gave you in a previous assignment that generates a nagios config
+
+gcloud compute scp $1.cfg $myusername@$mynagiosserver:/etc/nagios/conf.d --zone us-west1-a
+
+gcloud compute ssh $myusername@$mynagiosserver \
+"sudo /usr/sbin/nagios -v /etc/nagios/nagios.cfg" \
+| grep "Things look okay - No serious problems" \
+
+
+if [[ $configstatus ]]; then
+   gcloud compute ssh $myusername@$mynagiosserver --command "sudo systemctl restart nagios" --zone us-west1-a
+   echo "$1 has been added to nagios."
+else
+   echo "There was a problem with the nagios config, please log into $mynagiosserver and run /usr/sbin/nagios -v /etc/nagios/nagios.cfg to figure out where the problem is";
+   exit 1;
+fi
+
+
+#nfs-server
+
+myusername="Jonathan"                         # set this to your username
+mynagiosserver="nagios-a"                     # set this to your nagios server name
+mycactiserver="cacti-a"                      # set this to your cacti server
+myreposerver="yumrepo-a"                       # set this to your repo server
+mynagiosserverip="35.227.159.216"                   # set this to the ip address of your nagios server
+
+ip1=$(gcloud compute instances list | grep nfs-server | awk '{print $4}')
+
+./Users/Jonathan/desktop/NET320/NTI-320/automation_scripts/generate_config.sh ldap-server $ip1              # code I gave you in a previous assignment that generates a nagios config
+
+gcloud compute scp $1.cfg $myusername@$mynagiosserver:/etc/nagios/conf.d --zone us-west1-a
+
+name@$mynagiosserver \
+"sudo /usr/sbin/nagios -v /etc/nagios/nagios.cfg" \
+| grep "Things look okay - No serious problems" \
+
+
+if [[ $configstatus ]]; then
+   gcloud compute ssh $myusername@$mynagiosserver --command "sudo systemctl restart nagios" --zone us-west1-a
+   echo "$1 has been added to nagios."
+else
+   echo "There was a problem with the nagios config, please log into $mynagiosserver and run /usr/sbin/nagios -v /etc/nagios/nagios.cfg to figure out where the problem is";
+   exit 1;
+fi
+
+
+#postgres-a-test
+
+myusername="Jonathan"                         # set this to your username
+mynagiosserver="nagios-a"                     # set this to your nagios server name
+mycactiserver="cacti-a"                      # set this to your cacti server
+myreposerver="yumrepo-a"                       # set this to your repo server
+mynagiosserverip="35.227.159.216"                   # set this to the ip address of your nagios server
+
+ip1=$(gcloud compute instances list | grep postgres-a-test | awk '{print $4}')
+
+./Users/Jonathan/desktop/NET320/NTI-320/automation_scripts/generate_config.sh postgres-a-test $ip1              # code I gave you in a previous assignment that generates a nagios config
+
+gcloud compute scp $1.cfg $myusername@$mynagiosserver:/etc/nagios/conf.d --zone us-west1-a
+
+gcloud compute ssh $myusername@$mynagiosserver \
+"sudo /usr/sbin/nagios -v /etc/nagios/nagios.cfg" \
+| grep "Things look okay - No serious problems" \
+
+
+if [[ $configstatus ]]; then
+   gcloud compute ssh $myusername@$mynagiosserver --command "sudo systemctl restart nagios" --zone us-west1-a
+   echo "$1 has been added to nagios."
+else
+   echo "There was a problem with the nagios config, please log into $mynagiosserver and run /usr/sbin/nagios -v /etc/nagios/nagios.cfg to figure out where the problem is";
+   exit 1;
+fi
+
+
+#django-a-test
+
+myusername="Jonathan"                         # set this to your username
+mynagiosserver="nagios-a"                     # set this to your nagios server name
+mycactiserver="cacti-a"                      # set this to your cacti server
+myreposerver="yumrepo-a"                       # set this to your repo server
+mynagiosserverip="35.227.159.216"                   # set this to the ip address of your nagios server
+
+ip1=$(gcloud compute instances list | grep django-a-test | awk '{print $4}')
+
+./Users/Jonathan/desktop/NET320/NTI-320/automation_scripts/generate_config.sh django-a-test $ip1             # code I gave you in a previous assignment that generates a nagios config
+
+gcloud compute scp $1.cfg $myusername@$mynagiosserver:/etc/nagios/conf.d --zone us-west1-a
+
+gcloud compute ssh $myusername@$mynagiosserver \
+"sudo /usr/sbin/nagios -v /etc/nagios/nagios.cfg" \
+| grep "Things look okay - No serious problems" \
+
+
+if [[ $configstatus ]]; then
+   gcloud compute ssh $myusername@$mynagiosserver --command "sudo systemctl restart nagios" --zone us-west1-a
+   echo "$1 has been added to nagios."
+else
+   echo "There was a problem with the nagios config, please log into $mynagiosserver and run /usr/sbin/nagios -v /etc/nagios/nagios.cfg to figure out where the problem is";
+   exit 1;
+fi
+
+# script adds yumrepo to all servers on gcloud network
 
 for i in $( gcloud compute instances list --zones us-west1-a | awk '{print $1}' | grep -v "NAME" );\
 do gcloud compute ssh --zone us-west1-a Jonathan@$i --command "./Users/Jonathan/desktop/NET320/NTI-320/automation_scripts/add_yum_repo.sh";\
@@ -115,5 +286,3 @@ done;
 
 
 echo "Jwade005's Google Cloud NTI-320 Final Project Automatic Installation Complete. :)"
-
-
