@@ -92,6 +92,8 @@ gcloud compute instances create django-a-test \
     --scopes cloud-platform \
     --metadata-from-file startup-script=/Users/Jonathan/Desktop/NET320/NTI-320/automation_scripts/apache-django-install.sh \
 
+echo "Sleeping for a bit to let the startup scripts do their things. :)"
+
 sleep 120
 
 # add script to add nrpe to each isntance (nagios-remote-istall-yum.sh) DONE
@@ -107,6 +109,8 @@ sleep 120
 # rpmbuild-server
 
 #adds support for nagios monitoring
+
+echo "Creating cfg file for the rpmbuild-server and uploading it to nagios-a."
 
 myusername="Jonathan"                         # set this to your username
 mynagiosserver="nagios-a"                     # set this to your nagios server name
@@ -136,6 +140,8 @@ gcloud compute scp rpmbuild-server.cfg $myusername@$mynagiosserver:/etc/nagios/c
 
 #rsyslog-server
 
+echo "Creating cfg file for the rsyslog-server and uploading it to nagios-a."
+
 myusername="Jonathan"                         # set this to your username
 mynagiosserver="nagios-a"                     # set this to your nagios server name
 mycactiserver="cacti-a"                      # set this to your cacti server
@@ -163,6 +169,8 @@ gcloud compute scp rsyslog-server.cfg $myusername@$mynagiosserver:/etc/nagios/co
 
 
 #ldap-server
+
+echo "Creating cfg file for the ldap-server and uploading it to nagios-a."
 
 myusername="Jonathan"                         # set this to your username
 mynagiosserver="nagios-a"                     # set this to your nagios server name
@@ -192,6 +200,8 @@ gcloud compute scp ldap-server.cfg $myusername@$mynagiosserver:/etc/nagios/conf.
 
 #nfs-server
 
+echo "Creating cfg file for the nfs-server and uploading it to nagios-a."
+
 myusername="Jonathan"                         # set this to your username
 mynagiosserver="nagios-a"                     # set this to your nagios server name
 mycactiserver="cacti-a"                      # set this to your cacti server
@@ -219,6 +229,8 @@ gcloud compute scp nfs-server.cfg $myusername@$mynagiosserver:/etc/nagios/conf.d
 
 
 #postgres-a-test
+
+echo "Creating cfg file for the postgres-a-test-server and uploading it to nagios-a."
 
 myusername="Jonathan"                         # set this to your username
 mynagiosserver="nagios-a"                     # set this to your nagios server name
@@ -248,6 +260,8 @@ gcloud compute scp postgres-a-test.cfg $myusername@$mynagiosserver:/etc/nagios/c
 
 #django-a-test
 
+echo "Creating cfg file for the django-a-test-server and uploading it to nagios-a."
+
 myusername="Jonathan"                         # set this to your username
 mynagiosserver="nagios-a"                     # set this to your nagios server name
 mycactiserver="cacti-a"                      # set this to your cacti server
@@ -273,10 +287,16 @@ gcloud compute scp django-a-test.cfg $myusername@$mynagiosserver:/etc/nagios/con
 #   exit 1;
 #fi
 
+echo "Restarting nagios service on the nagios-a server."
+
+gcloud compute ssh Jonathan@nagios-a --command "sudo systemctl restart nagios"
+
 # script adds yumrepo to all servers on gcloud network
 
+echo "Adding jwade005's yum repo to all instances in the gcloud network."
+
 for i in $( gcloud compute instances list --zones us-west1-a | awk '{print $1}' | grep -v "NAME" );\
-do gcloud compute ssh --zone us-west1-a Jonathan@$i --command "./Users/Jonathan/Desktop/NET320/NTI-320/automation_scripts/add_yum_repo.sh";\
+do gcloud compute ssh --zone us-west1-a Jonathan@$i --command "./NTI-320/automation_scripts/add_yum_repo.sh";\
 done;
 
 # exmaple for loop
