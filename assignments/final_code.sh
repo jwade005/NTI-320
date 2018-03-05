@@ -299,10 +299,4 @@ for i in $( gcloud compute instances list --zones us-west1-a | awk '{print $1}' 
 do gcloud compute ssh --zone us-west1-a Jonathan@$i --command "./NTI-320/automation_scripts/add_yum_repo.sh";\
 done;
 
-# exmaple for loop
-# [root@test-vm-a Jonathan]# for i in $( gcloud compute instances list --zones us-west1-a | awk '{print $1}' | grep -v "NAME" );\
-# >  do gcloud compute ssh --zone us-west1-a Jonathan@$i --command "touch jonathan.txt";\
-# > done;
-
-
 echo "Jwade005's Google Cloud NTI-320 Final Project Automatic Installation Complete. :)"
