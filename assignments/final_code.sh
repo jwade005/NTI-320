@@ -292,11 +292,12 @@ echo "Restarting nagios service on the nagios-a server."
 gcloud compute ssh Jonathan@nagios-a --command "sudo systemctl restart nagios"
 
 # script adds yumrepo to all servers on gcloud network
+# yumrepo added at the end of the gcloud startup script 
 
-echo "Adding jwade005's yum repo to all instances in the gcloud network."
+#echo "Adding jwade005's yum repo to all instances in the gcloud network."
 
-for i in $( gcloud compute instances list --zones us-west1-a | awk '{print $1}' | grep -v "NAME" );\
-do gcloud compute ssh --zone us-west1-a Jonathan@$i --command "./NTI-320/automation_scripts/add_yum_repo.sh";\
-done;
+#for i in $( gcloud compute instances list --zones us-west1-a | awk '{print $1}' | grep -v "NAME" );\
+#do gcloud compute ssh --zone us-west1-a Jonathan@$i --command "./NTI-320/automation_scripts/add_yum_repo.sh";\
+#done;
 
 echo "Jwade005's Google Cloud NTI-320 Final Project Automatic Installation Complete. :)"
