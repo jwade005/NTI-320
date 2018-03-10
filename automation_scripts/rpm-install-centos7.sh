@@ -5,7 +5,7 @@
 # Install the RPM-Build package and the macros and helper scripts package:
 sudo yum -y install rpm-build
 sudo yum -y install redhat-rpm-config
-
+sudo yum -y install gcc
 # To create the RPM building environment, run the two commands below:
 mkdir -p ~/rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
 echo '%_topdir %(echo $HOME)/rpmbuild' > ~/.rpmmacros
