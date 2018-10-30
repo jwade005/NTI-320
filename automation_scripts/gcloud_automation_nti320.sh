@@ -49,7 +49,7 @@ gcloud compute instances create rpmbuild-server \
     --image-project centos-cloud \
     --machine-type f1-micro \
     --scopes cloud-platform \
-    --metadata-from-file startup-script=/Users/Jonathan/Desktop/Seattle Central/NET320/NTI-320/automation_scripts/rpm-install-centos7.sh \
+    --metadata-from-file startup-script=/Users/Jonathan/Desktop/Seattle\ Central/NET320/NTI-320/automation_scripts/rpm-install-centos7.sh \
 
 echo "Creating the rsyslog-server instance and running the install script..."
 gcloud compute instances create rsyslog-server \
@@ -57,7 +57,7 @@ gcloud compute instances create rsyslog-server \
     --image-project centos-cloud \
     --machine-type f1-micro \
     --scopes cloud-platform \
-    --metadata-from-file startup-script=/Users/Jonathan/Desktop/Seattle Central/NTI310/NTI-310/automation_scripts/rsyslog-server-install.sh \
+    --metadata-from-file startup-script=/Users/Jonathan/Desktop/Seattle\ Central/NTI310/NTI-310/automation_scripts/rsyslog-server-install.sh \
 
 echo "Creating the ldap-server instance and running the install script..."
 gcloud compute instances create ldap-server \
@@ -65,7 +65,7 @@ gcloud compute instances create ldap-server \
     --image-project centos-cloud \
     --machine-type f1-micro \
     --scopes cloud-platform \
-    --metadata-from-file startup-script=/Users/Jonathan/Desktop/Seattle Central/NTI310/NTI-310/automation_scripts/ldap-server-install.sh \
+    --metadata-from-file startup-script=/Users/Jonathan/Desktop/Seattle\ Central/NTI310/NTI-310/automation_scripts/ldap-server-install.sh \
 
 echo "Creating the nfs-server and running the install script..."
 gcloud compute instances create nfs-server \
@@ -73,7 +73,7 @@ gcloud compute instances create nfs-server \
     --image-project centos-cloud \
     --machine-type f1-micro \
     --scopes cloud-platform \
-    --metadata-from-file startup-script=/Users/Jonathan/Desktop/Seattle Central/NTI310/NTI-310/automation_scripts/nfs-server-install.sh \
+    --metadata-from-file startup-script=/Users/Jonathan/Desktop/Seattle\ Central/NTI310/NTI-310/automation_scripts/nfs-server-install.sh \
 
 echo "Creating the postgres-a-test server and running the install script..."
 gcloud compute instances create postgres-a-test \
@@ -81,7 +81,7 @@ gcloud compute instances create postgres-a-test \
     --image-project centos-cloud \
     --machine-type f1-micro \
     --scopes cloud-platform \
-    --metadata-from-file startup-script=/Users/Jonathan/Desktop/Seattle Central/NTI310/NTI-310/automation_scripts/postgres-install.sh \
+    --metadata-from-file startup-script=/Users/Jonathan/Desktop/Seattle\ Central/NTI310/NTI-310/automation_scripts/postgres-install.sh \
 
 echo "Creating the django-a-test server and running the install script..."
 gcloud compute instances create django-a-test \
@@ -89,7 +89,7 @@ gcloud compute instances create django-a-test \
     --image-project centos-cloud \
     --machine-type f1-micro \
     --scopes cloud-platform \
-    --metadata-from-file startup-script=/Users/Jonathan/Desktop/Seattle Central/NTI310/NTI-310/automation_scripts/apache-django-install.sh \
+    --metadata-from-file startup-script=/Users/Jonathan/Desktop/Seattle\ Central/NTI310/NTI-310/automation_scripts/apache-django-install.sh \
 
 sleep 120
 
