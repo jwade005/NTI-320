@@ -6,7 +6,7 @@ echo "Authorizing jwade005 for this project..."
 gcloud auth login wadejonathan005@gmail.com --no-launch-browser
 
 echo "Enabling billing..."
-gcloud alpha billing accounts projects link final-test-project-2 --account-id=00CB7D-C97746-2D8BC1
+gcloud alpha billing accounts projects link final-test-project-2 --account-id=0184D0-5B557E-291611
 
 echo "Setting admin account-id..."
 gcloud config set account wadejonathan005@gmail.com
