@@ -47,14 +47,14 @@ sed -i 's,dont_blame_nrpe=0,dont_blame_nrpe=1,g' /etc/nagios/nrpe.cfg
 cd /etc/nagios/conf.d
 touch test-1-nti320.cfg
 
-echo '# Define a host for the test-1-nti320 machine
+echo '# Define a host for the test-a machine
 
 define host{
         use                     linux-server            ; Name of host template to use
                                                         ; This host definition will inherit all variables that are defined
                                                         ; in (or inherited by) the linux-server host template definition.
-        host_name               test-1
-        alias                   test-1-nti320
+        host_name               test-a
+        alias                   test-a
         address                 10.138.0.3
         }
 
@@ -66,44 +66,44 @@ define host{
 ###############################################################################
 ###############################################################################
 
-# Define a service to ping the test-1-nti320 machine
+# Define a service to ping the test-a machine
 
 define service{
         use                             generic-service         ; Name of service template to use
-        host_name                       test-1
+        host_name                       test-a
         service_description             PING
         check_command                   check_ping!100.0,20%!500.0,60%
         }
 
-# Define a service to check HTTP on the test-1-nti-320 machine.
+# Define a service to check HTTP on the test-a machine.
 # Disable notifications for this service by default, as not all users may have HTTP enabled.
 
 define service{
         use                             generic-service         ; Name of service template to use
-        host_name                       test-1
+        host_name                       test-a
         service_description             HTTP
         check_command                   check_http
         notifications_enabled           0
         }
 
 # Define a service to check the disk space of the root partition
-# on the test-1-nti-320 machine.  Warning if < 20% free, critical if
+# on the test-a machine.  Warning if < 20% free, critical if
 # < 10% free space on partition.
 
 define service{
         use                             generic-service         ; Name of service template to use
-        host_name                       test-1
+        host_name                       test-a
         service_description             Root Partition
         check_command			              check_nrpe!check_disk!20%!10%!/
         }
 
 # Define a service to check the number of currently logged in
-# users on the test-1-nti-320 machine.  Warning if > 20 users, critical
+# users on the test-a machine.  Warning if > 20 users, critical
 # if > 50 users.
 
 define service{
         use                             generic-service         ; Name of service template to use
-        host_name                       test-1
+        host_name                       test-a
         service_description             Current Users
         check_command			              check_nrpe!check_users!20!50
         }
@@ -115,26 +115,26 @@ define service{
 
 define service{
         use                             generic-service         ; Name of service template to use
-        host_name                       test-1
+        host_name                       test-a
         service_description             Total Processes
         check_command			              check_nrpe!check_procs!250!400!RSZDT
         }
 
-# Define a service to check the load on the test-1-nti-320 machine.
+# Define a service to check the load on the test-a machine.
 
 define service{
         use                             generic-service         ; Name of service template to use
-        host_name                       test-1
+        host_name                       test-a
         service_description             Current Load
         check_command			              check_nrpe!check_load!5.0,4.0,3.0!10.0,6.0,4.0
         }
 
-# Define a service to check SSH on the test-1-nti-320 machine.
+# Define a service to check SSH on the test-a machine.
 # Disable notifications for this service by default, as not all users may have SSH enabled.
 
 define service{
         use                             generic-service         ; Name of service template to use
-        host_name                       test-1
+        host_name                       test-a
         service_description             SSH
         check_command			              check_ssh
         notifications_enabled		        0
@@ -143,6 +143,7 @@ define service{
 
 #To check services defined here you need to install nagios plugins and nrpe on remote host and define
 #the commands in /etc/nagios/objects/commands.cfg
+#defile command{
 #        command_name    check_load
 #        command_line    $USER1$/check_load -w $ARG1$ -c $ARG2$
 #        }
@@ -164,7 +165,7 @@ define service{
 #        command_name    check_users
 #        command_line    $USER1$/check_users -w $ARG1$ -c $ARG2$
 #        }
-' >> test-1-nti320.cfg
+' >> test-a.cfg
 
 #isntall nrpe plugin for remote monitoring
 yum -y install check_nrpe
