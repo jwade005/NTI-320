@@ -143,7 +143,7 @@ define service{
 
 #To check services defined here you need to install nagios plugins and nrpe on remote host and define
 #the commands in /etc/nagios/objects/commands.cfg
-#defile command{
+#define command{
 #        command_name    check_load
 #        command_line    $USER1$/check_load -w $ARG1$ -c $ARG2$
 #        }
